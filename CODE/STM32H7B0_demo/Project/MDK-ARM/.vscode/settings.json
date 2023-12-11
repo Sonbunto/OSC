@@ -1,0 +1,17 @@
+{
+    "KeilAssistant.Project.ExcludeList": [
+        
+        "template.uvproj",
+        "template.uvprojx"
+    ],
+    "files.associations": {
+        "bsp.h": "c",
+        "bsps_thread.h": "c",
+        "bsps_encoder.h": "c",
+        "bsps_periph.h": "c",
+        "gui.h": "c",
+        "dev.h": "c",
+        "gui_dev.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}
