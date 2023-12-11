@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\demo.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\demo.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6160001: Last Updated: Mon Dec 11 15:09:33 2023
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 6160001: Last Updated: Mon Dec 11 21:04:12 2023
 <BR><P>
 <H3>Maximum Stack Usage =        760 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -656,8 +656,10 @@ Global Symbols
 
 <P><STRONG><a name="[1d2]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
-<P><STRONG><a name="[c8]"></a>__aeabi_memclr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[c8]"></a>__aeabi_memclr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, memseta.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[c9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
+</UL>
+<BR>[Called By]<UL><LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_sa_trig_read
 </UL>
 
 <P><STRONG><a name="[ea]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text))
@@ -1785,12 +1787,16 @@ Global Symbols
 </UL>
 <P><STRONG><a name="[188]"></a>bsps_get_run_msg</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, bsps_thread.o(.text.bsps_get_run_msg))
 <BR><BR>[Called By]<UL><LI><a href="#[18d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_vol_scale_set_ch2
+<LI><a href="#[3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_thread
 <LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_time_psc_set
 <LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_sa_trig_read
 <LI><a href="#[ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_touch_trig_task
+<LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_touch_trig_mode_task
 <LI><a href="#[172]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_touch_task
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_touch_menu_enter
+<LI><a href="#[a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_touch_ch2_en_task
 <LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_touch_ch1_ratio_task
+<LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_touch_ch1_en_task
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_ui_wave_init
 <LI><a href="#[0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_ui_is_trig
 </UL>
@@ -1994,28 +2000,30 @@ Global Symbols
 <LI><a href="#[47]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA2_Stream0_IRQHandler
 </UL>
 
-<P><STRONG><a name="[187]"></a>bsps_sa_trig_read</STRONG> (Thumb, 540 bytes, Stack size 56 bytes, bsps_ad9288.o(.text.bsps_sa_trig_read))
+<P><STRONG><a name="[187]"></a>bsps_sa_trig_read</STRONG> (Thumb, 644 bytes, Stack size 56 bytes, bsps_ad9288.o(.text.bsps_sa_trig_read))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = bsps_sa_trig_read &rArr; osc_copy_from_fifo
 </UL>
 <BR>[Calls]<UL><LI><a href="#[189]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osc_copy_from_fifo
 <LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_get_run_msg
+<LI><a href="#[c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 </UL>
 <BR>[Called By]<UL><LI><a href="#[3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_thread
 </UL>
 
-<P><STRONG><a name="[3]"></a>bsps_thread</STRONG> (Thumb, 86 bytes, Stack size 24 bytes, bsps_thread.o(.text.bsps_thread))
-<BR><BR>[Stack]<UL><LI>Max Depth = 144<LI>Call Chain = bsps_thread &rArr; bsp_lcd_draw_lines &rArr; bsp_lcd_draw_line &rArr; bsp_lcd_set_pixel
+<P><STRONG><a name="[3]"></a>bsps_thread</STRONG> (Thumb, 208 bytes, Stack size 32 bytes, bsps_thread.o(.text.bsps_thread))
+<BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = bsps_thread &rArr; bsp_lcd_draw_lines &rArr; bsp_lcd_draw_line &rArr; bsp_lcd_set_pixel
 </UL>
 <BR>[Calls]<UL><LI><a href="#[187]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_sa_trig_read
 <LI><a href="#[18b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OSC_DMA_CLEAR_TC
 <LI><a href="#[18a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OSC_DMA_CHECK_TC
+<LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_get_run_msg
 <LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_ui_main_win_draw
 <LI><a href="#[14e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_lcd_fill_rect
 <LI><a href="#[167]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_lcd_draw_lines
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> bsps_thread.o(os_tsk_ram)
 </UL>
-<P><STRONG><a name="[bc]"></a>bsps_thread_init</STRONG> (Thumb, 74 bytes, Stack size 24 bytes, bsps_thread.o(.text.bsps_thread_init))
+<P><STRONG><a name="[bc]"></a>bsps_thread_init</STRONG> (Thumb, 84 bytes, Stack size 24 bytes, bsps_thread.o(.text.bsps_thread_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 404<LI>Call Chain = bsps_thread_init &rArr; bsps_vol_scale_set_ch2 &rArr; bsps_ui_ch12_vol_gain_draw &rArr; LCD_DispStr &rArr; LCD_DispStrEx &rArr; bsp_lcd_fill_rect &rArr; DMA2D_FillBuffer
 </UL>
 <BR>[Calls]<UL><LI><a href="#[18d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_vol_scale_set_ch2
@@ -2084,10 +2092,11 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> bsps_touch.o(.text.bsps_touch_task)
 </UL>
-<P><STRONG><a name="[a4]"></a>bsps_touch_ch1_en_task</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, bsps_touch.o(.text.bsps_touch_ch1_en_task))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = bsps_touch_ch1_en_task &rArr; osc_ui_ch1_btn_sel
+<P><STRONG><a name="[a4]"></a>bsps_touch_ch1_en_task</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, bsps_touch.o(.text.bsps_touch_ch1_en_task))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = bsps_touch_ch1_en_task &rArr; osc_ui_ch1_btn_sel
 </UL>
 <BR>[Calls]<UL><LI><a href="#[194]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osc_ui_ch1_btn_sel
+<LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_get_run_msg
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> bsps_touch.o(.text.bsps_touch_task)
 </UL>
@@ -2117,10 +2126,11 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> bsps_touch.o(.text.bsps_touch_task)
 </UL>
-<P><STRONG><a name="[a8]"></a>bsps_touch_ch2_en_task</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, bsps_touch.o(.text.bsps_touch_ch2_en_task))
-<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = bsps_touch_ch2_en_task &rArr; osc_ui_ch2_btn_sel
+<P><STRONG><a name="[a8]"></a>bsps_touch_ch2_en_task</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, bsps_touch.o(.text.bsps_touch_ch2_en_task))
+<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = bsps_touch_ch2_en_task &rArr; osc_ui_ch2_btn_sel
 </UL>
 <BR>[Calls]<UL><LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osc_ui_ch2_btn_sel
+<LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_get_run_msg
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> bsps_touch.o(.text.bsps_touch_task)
 </UL>
@@ -2173,11 +2183,12 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> bsps_touch.o(.text.bsps_touch_task)
 </UL>
-<P><STRONG><a name="[a9]"></a>bsps_touch_trig_mode_task</STRONG> (Thumb, 138 bytes, Stack size 16 bytes, bsps_touch.o(.text.bsps_touch_trig_mode_task))
+<P><STRONG><a name="[a9]"></a>bsps_touch_trig_mode_task</STRONG> (Thumb, 156 bytes, Stack size 16 bytes, bsps_touch.o(.text.bsps_touch_trig_mode_task))
 <BR><BR>[Stack]<UL><LI>Max Depth = 364<LI>Call Chain = bsps_touch_trig_mode_task &rArr; bsps_ui_trig_mode_draw &rArr; LCD_DispStr &rArr; LCD_DispStrEx &rArr; bsp_lcd_fill_rect &rArr; DMA2D_FillBuffer
 </UL>
 <BR>[Calls]<UL><LI><a href="#[19a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osc_ui_trig_btn_sel
 <LI><a href="#[19d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_ui_trig_mode_draw
+<LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_get_run_msg
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> bsps_touch.o(.text.bsps_touch_task)
 </UL>
@@ -2800,7 +2811,7 @@ Local Symbols
 <BR>[Called By]<UL><LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_Init
 </UL>
 
-<P><STRONG><a name="[0]"></a>bsps_ui_is_trig</STRONG> (Thumb, 202 bytes, Stack size 32 bytes, bsps_ui.o(.text.bsps_ui_is_trig))
+<P><STRONG><a name="[0]"></a>bsps_ui_is_trig</STRONG> (Thumb, 228 bytes, Stack size 32 bytes, bsps_ui.o(.text.bsps_ui_is_trig))
 <BR><BR>[Stack]<UL><LI>Max Depth = 348<LI>Call Chain = bsps_ui_is_trig &rArr; LCD_DispStr &rArr; LCD_DispStrEx &rArr; bsp_lcd_fill_rect &rArr; DMA2D_FillBuffer
 </UL>
 <BR>[Calls]<UL><LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsps_get_run_msg

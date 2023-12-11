@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-11-09 18:12:36
- * @LastEditTime: 2023-12-10 17:42:00
+ * @LastEditTime: 2023-12-11 20:37:52
  * @Description: ÇëÌîÐ´¼ò½é
  */
 #include "bsp.h"
@@ -9,6 +9,7 @@
 extern uint16_t disp_data[2][700];
 uint16_t disp_x_data[700];
 static run_msg_t run_msg;
+__IO uint8_t off_clear = 0;
 
 int bsps_thread_init(void);
 
@@ -17,13 +18,29 @@ OS_TSK_REGISTER(bsps_thread, PRIORITY_4, 50);
 
 void bsps_thread(void)
 {
+    run_msg_t *run_msg = bsps_get_run_msg();
+
     if (OSC_DMA_CHECK_TC())
     {
         OSC_DMA_CLEAR_TC();
-        bsp_lcd_fill_rect(LTDC_LAYER_1,20,40,400,700,CL_BLACK);
-        bsps_ui_main_win_draw();
-        bsps_sa_trig_read();
-        bsp_lcd_draw_lines(disp_x_data, disp_data[1], 700, CL_YELLOW);
+        if (run_msg->ch1_sta == CH_ON)
+        {
+            bsp_lcd_fill_rect(LTDC_LAYER_1, 20, 40, 400, 700, CL_BLACK);
+            bsps_ui_main_win_draw();
+            bsps_sa_trig_read();
+            bsp_lcd_draw_lines(disp_x_data, disp_data[1], 700, CL_YELLOW);
+            off_clear = 0;
+        }
+        else if(run_msg->ch2_sta == CH_ON)
+        {
+
+        }
+        else if(run_msg->ch1_sta == CH_OFF && run_msg->ch2_sta == CH_OFF && off_clear == 0)
+        {
+            bsp_lcd_fill_rect(LTDC_LAYER_1, 20, 40, 400, 700, CL_BLACK);
+            bsps_ui_main_win_draw();
+            off_clear = 1;
+        }
     }
 }
 
@@ -38,7 +55,7 @@ static void bsps_xdata_init(void)
 int bsps_thread_init(void)
 {
     bsps_xdata_init();
-    
+
     run_msg.is_trig = NO_TRIG;
     run_msg.is_pause = NO_PAUSE;
     run_msg.run_mode = MODE_WAVE;
@@ -53,11 +70,13 @@ int bsps_thread_init(void)
     run_msg.vol_scale[0] = 5;
     run_msg.vol_scale[1] = 5;
     bsps_vol_scale_set_ch2(5);
+    run_msg.ch1_sta = CH_ON;
+    run_msg.ch2_sta = CH_OFF;
 
     return OS_OK;
 }
 
-run_msg_t * bsps_get_run_msg(void)
+run_msg_t *bsps_get_run_msg(void)
 {
     return &run_msg;
 }

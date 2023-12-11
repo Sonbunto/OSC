@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-11-09 18:12:25
- * @LastEditTime: 2023-12-10 17:59:52
+ * @LastEditTime: 2023-12-11 20:31:33
  * @Description: «ÎÃÓ–¥ºÚΩÈ
  */
 #ifndef __BSPS_THREAD_H
@@ -13,6 +13,8 @@
 #define PAUSE 1
 #define MODE_WAVE 0
 #define MODE_SPEC 1
+#define CH_OFF 0
+#define CH_ON 1
 #define AC_COUPLE 1
 #define DC_COUPLE 0
 #define RATIO_1X 0
@@ -32,6 +34,8 @@ typedef struct
     uint16_t offset_lev[2];
     uint8_t vol_scale[2];
     uint8_t timebase;
+    uint8_t ch1_sta;
+    uint8_t ch2_sta;
     uint8_t is_trig;
     uint8_t is_pause;
     uint8_t trig_mode;

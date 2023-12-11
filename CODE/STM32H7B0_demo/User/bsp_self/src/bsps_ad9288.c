@@ -17,7 +17,6 @@ static unsigned int osc_flag_dma_tc = 0;
 uint8_t os_trig_start_flag = 0;
 uint16_t dma_trig_ndtr = 0;
 
-
 static TIM_HandleTypeDef TIM_Handle;
 
 static int bsps_sa_init(void);
@@ -28,7 +27,6 @@ static void bsps_sa_dma_init(unsigned char freq_mode, unsigned char trig_mode, u
 OS_INIT_REGISTER("sa_init", bsps_sa_init, 0, 3);
 
 // OS_TSK_REGISTER(osc_curve_test,PRIORITY_3,1000);
-
 
 static int bsps_sa_init(void)
 {
@@ -298,12 +296,12 @@ void bsps_sa_trig_edge_set(uint8_t mode)
 		EXTI->RTSR1 |= ((1 << 10) | (1 << 11));
 		EXTI->FTSR1 &= ~((1 << 10) | (1 << 11));
 	}
-	else if(mode == TRIG_EDGE_FALL)
+	else if (mode == TRIG_EDGE_FALL)
 	{
 		EXTI->FTSR1 |= ((1 << 10) | (1 << 11));
 		EXTI->RTSR1 &= ~((1 << 10) | (1 << 11));
 	}
-	else if(mode == TRIG_EDGE_RISE_FALL)
+	else if (mode == TRIG_EDGE_RISE_FALL)
 	{
 		EXTI->FTSR1 |= ((1 << 10) | (1 << 11));
 		EXTI->RTSR1 |= ((1 << 10) | (1 << 11));
@@ -318,19 +316,31 @@ void bsps_sa_trig_read(void)
 	if (dma_trig_ndtr != 0 && dma_trig_ndtr < ((62 * 1024) - 700))
 	{
 		// 触发成功
-		osc_copy_from_fifo(cache_fifo[0], 0, dma_trig_ndtr - 350 + 2 - osc_tim_table[run_msg->timebase].osc_trig_delay, 700);
-		osc_copy_from_fifo(cache_fifo[1], 1, dma_trig_ndtr - 350 + 2 - osc_tim_table[run_msg->timebase].osc_trig_delay, 700);
-		dma_trig_ndtr = 0;
-		run_msg->is_trig = TRIG;
-		cnt_success++;
+		if ((run_msg->trig_mode == TRIG_SIGLE && run_msg->is_trig == NO_TRIG) || run_msg->trig_mode == TRIG_AUTO || run_msg->trig_mode == TRIG_NORMAL)
+		{
+			osc_copy_from_fifo(cache_fifo[0], 0, dma_trig_ndtr - 350 + 2 - osc_tim_table[run_msg->timebase].osc_trig_delay, 700);
+			osc_copy_from_fifo(cache_fifo[1], 1, dma_trig_ndtr - 350 + 2 - osc_tim_table[run_msg->timebase].osc_trig_delay, 700);
+			dma_trig_ndtr = 0;
+			run_msg->is_trig = TRIG;
+			cnt_success++;
+		}
 	}
 	else
 	{
 		// 触发失败
-		osc_copy_from_fifo(cache_fifo[0], 0, 700, 700);
-		osc_copy_from_fifo(cache_fifo[1], 1, 700, 700);
+		if (run_msg->trig_mode != TRIG_NORMAL && run_msg->trig_mode != TRIG_SIGLE)
+		{
+			osc_copy_from_fifo(cache_fifo[0], 0, 700, 700);
+			osc_copy_from_fifo(cache_fifo[1], 1, 700, 700);
+			cnt_fail++;
+		}
+
+		if(run_msg->trig_mode == TRIG_SIGLE)
+		{
+			memset(cache_fifo[0],0,700);
+			memset(cache_fifo[1],0,700);
+		}
 		run_msg->is_trig = NO_TRIG;
-		cnt_fail++;
 	}
 
 	// 转换显示数据
@@ -338,11 +348,11 @@ void bsps_sa_trig_read(void)
 	{
 		disp_data[0][i] = (float)cache_fifo[0][i] * 400.0f / 256.0f * 1.25f + 240;
 		disp_data[1][i] = ((float)cache_fifo[1][i] / 256.0f * 1.25f - 0.625) * 400 + 240;
-		if(disp_data[1][i] >= 440)
+		if (disp_data[1][i] >= 440)
 		{
 			disp_data[1][i] = 440;
 		}
-		else if(disp_data[1][i] <= 40)
+		else if (disp_data[1][i] <= 40)
 		{
 			disp_data[1][i] = 40;
 		}

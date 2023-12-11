@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-10-03 16:37:46
- * @LastEditTime: 2023-12-11 15:08:59
+ * @LastEditTime: 2023-12-11 20:46:40
  * @Description: 请填写简介
  */
 /*
@@ -31,7 +31,7 @@ __IO uint16_t osc_mode = 0;
 __IO uint16_t g_sa_rate_wave = 1000; // 时域采样率 单位Ksps
 __IO uint16_t g_sa_rate_spec = 1000; // 频域采样率 单位Ksps
 __IO uint8_t ch1_ctl_btn, ch2_ctl_btn, trig_ctl_btn = 0;
-__IO uint8_t ch1_en, ch2_en, ch1_ratio, ch2_ratio, ch1_coup, ch2_coup, trig_mode, trig_edge, trig_ch = 0;
+__IO uint8_t ch1_en = 1, ch2_en = 1, ch1_ratio = 1, ch2_ratio = 1, ch1_coup = 1, ch2_coup = 1, trig_mode = 0, trig_edge = 1, trig_ch = 0;
 uint8_t tmp_cnt = 0;
 
 void bsps_touch_task(void);
@@ -362,14 +362,18 @@ void bsps_touch_trig_ctl_task(void)
  */
 void bsps_touch_ch1_en_task(void)
 {
+	run_msg_t *run_msg = bsps_get_run_msg();
+
 	ch1_en = !ch1_en;
 	if (ch1_en)
 	{
-		osc_ui_ch1_btn_sel(5);
+		run_msg->ch1_sta = CH_ON;
+		osc_ui_ch1_btn_sel(2);
 	}
 	else
 	{
-		osc_ui_ch1_btn_sel(2);
+		run_msg->ch1_sta = CH_OFF;
+		osc_ui_ch1_btn_sel(5);
 	}
 }
 
@@ -424,14 +428,18 @@ void bsps_touch_ch1_coup_task(void)
  */
 void bsps_touch_ch2_en_task(void)
 {
+	run_msg_t *run_msg = bsps_get_run_msg();
+
 	ch2_en = !ch2_en;
 	if (ch2_en)
 	{
-		osc_ui_ch2_btn_sel(5);
+		run_msg->ch2_sta = CH_ON;
+		osc_ui_ch2_btn_sel(2);
 	}
 	else
 	{
-		osc_ui_ch2_btn_sel(2);
+		run_msg->ch2_sta = CH_OFF;
+		osc_ui_ch2_btn_sel(5);
 	}
 }
 
@@ -479,6 +487,8 @@ void bsps_touch_ch2_coup_task(void)
  */
 void bsps_touch_trig_mode_task(void)
 {
+	run_msg_t *run_msg = bsps_get_run_msg();
+
 	trig_mode++;
 	if(trig_mode >= 3)
 	{
@@ -486,16 +496,19 @@ void bsps_touch_trig_mode_task(void)
 	}
 	if (trig_mode == 0)
 	{
+		run_msg->trig_mode = TRIG_AUTO;
 		bsps_ui_trig_mode_draw(TRIG_AUTO);
 		osc_ui_trig_btn_sel(0);
 	}
 	else if(trig_mode == 1)
 	{
+		run_msg->trig_mode = TRIG_NORMAL;
 		bsps_ui_trig_mode_draw(TRIG_NORMAL);
 		osc_ui_trig_btn_sel(3);
 	}
 	else if(trig_mode == 2)
 	{
+		run_msg->trig_mode = TRIG_SIGLE;
 		bsps_ui_trig_mode_draw(TRIG_SIGLE);
 		osc_ui_trig_btn_sel(6);
 	}

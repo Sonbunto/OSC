@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-09-11 10:17:02
- * @LastEditTime: 2023-12-11 14:47:53
+ * @LastEditTime: 2023-12-11 21:04:02
  * @Description: ÇëÌîÐ´¼ò½é
  */
 /*
@@ -273,7 +273,7 @@ static void bsps_ui_is_trig(void)
 
 	if (flag_isfist)
 	{
-		if (!run_msg->is_trig || run_msg->is_pause)
+		if (!run_msg->is_trig || run_msg->is_pause || (run_msg->ch1_sta == CH_OFF && run_msg->ch2_sta == CH_OFF) || run_msg->trig_mode == TRIG_SIGLE)
 		{
 			tFont.BackColor = CL_RED;
 		}
