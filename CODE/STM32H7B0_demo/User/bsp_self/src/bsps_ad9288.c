@@ -293,17 +293,17 @@ void bsps_sa_trig_exti_set(uint8_t flag)
 // ÉèÖÃ´¥·¢±ßÑØ
 void bsps_sa_trig_edge_set(uint8_t mode)
 {
-	if (mode == EDGE_RISE)
+	if (mode == TRIG_EDGE_RISE)
 	{
 		EXTI->RTSR1 |= ((1 << 10) | (1 << 11));
 		EXTI->FTSR1 &= ~((1 << 10) | (1 << 11));
 	}
-	else if(mode == EDGE_FALL)
+	else if(mode == TRIG_EDGE_FALL)
 	{
 		EXTI->FTSR1 |= ((1 << 10) | (1 << 11));
 		EXTI->RTSR1 &= ~((1 << 10) | (1 << 11));
 	}
-	else if(mode == EDGE_RISE_FALL)
+	else if(mode == TRIG_EDGE_RISE_FALL)
 	{
 		EXTI->FTSR1 |= ((1 << 10) | (1 << 11));
 		EXTI->RTSR1 |= ((1 << 10) | (1 << 11));

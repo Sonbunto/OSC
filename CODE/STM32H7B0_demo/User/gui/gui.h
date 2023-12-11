@@ -67,6 +67,9 @@ typedef struct gui_info
 
     uint16_t abx;
     uint16_t aby;
+
+    uint32_t layer;
+    
 }gui_info_t;
 
 //组件结构体定义

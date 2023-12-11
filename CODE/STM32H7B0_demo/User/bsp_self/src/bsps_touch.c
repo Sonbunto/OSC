@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-10-03 16:37:46
- * @LastEditTime: 2023-12-10 19:33:39
+ * @LastEditTime: 2023-12-11 15:08:59
  * @Description: 请填写简介
  */
 /*
@@ -21,6 +21,8 @@ extern widget_t right_btn[6];
 extern widget_t ch12_btn[2];
 extern widget_t ch1_bck_btn[3];
 extern widget_t ch2_bck_btn[6];
+extern widget_t trig_btn;
+extern widget_t trig_bck_btn[3];
 
 uint8_t _temp = 0; // 中间变量
 __IO uint8_t touch_flag = 0;
@@ -28,8 +30,8 @@ __IO uint16_t last_x_pos = 0;
 __IO uint16_t osc_mode = 0;
 __IO uint16_t g_sa_rate_wave = 1000; // 时域采样率 单位Ksps
 __IO uint16_t g_sa_rate_spec = 1000; // 频域采样率 单位Ksps
-__IO uint8_t ch1_ctl_btn, ch2_ctl_btn = 0;
-__IO uint8_t ch1_en, ch2_en, ch1_ratio, ch2_ratio, ch1_coup, ch2_coup = 0;
+__IO uint8_t ch1_ctl_btn, ch2_ctl_btn, trig_ctl_btn = 0;
+__IO uint8_t ch1_en, ch2_en, ch1_ratio, ch2_ratio, ch1_coup, ch2_coup, trig_mode, trig_edge, trig_ch = 0;
 uint8_t tmp_cnt = 0;
 
 void bsps_touch_task(void);
@@ -271,25 +273,25 @@ void bsps_touch_ratio_task(void)
 	}
 }
 
-static void bsps_touch_trig_edge_task(void)
-{
-	run_msg_t *run_msg = bsps_get_run_msg();
+// static void bsps_touch_trig_edge_task(void)
+// {
+// 	run_msg_t *run_msg = bsps_get_run_msg();
 
-	if (run_msg->trig_edge == EDGE_RISE)
-	{
-		run_msg->trig_edge = EDGE_FALL;
-	}
-	else if (run_msg->trig_edge == EDGE_FALL)
-	{
-		run_msg->trig_edge = EDGE_RISE_FALL;
-	}
-	else if (run_msg->trig_edge == EDGE_RISE_FALL)
-	{
-		run_msg->trig_edge = EDGE_RISE;
-	}
+// 	if (run_msg->trig_edge == EDGE_RISE)
+// 	{
+// 		run_msg->trig_edge = EDGE_FALL;
+// 	}
+// 	else if (run_msg->trig_edge == EDGE_FALL)
+// 	{
+// 		run_msg->trig_edge = EDGE_RISE_FALL;
+// 	}
+// 	else if (run_msg->trig_edge == EDGE_RISE_FALL)
+// 	{
+// 		run_msg->trig_edge = EDGE_RISE;
+// 	}
 
-	bsps_sa_trig_edge_set(run_msg->trig_edge);
-}
+// 	bsps_sa_trig_edge_set(run_msg->trig_edge);
+// }
 
 // 设置菜单深度总任务
 void bsps_touch_menu_enter(uint8_t depth)
@@ -312,11 +314,11 @@ void bsps_touch_ch1_ctl_task(void)
 	ch1_ctl_btn = !ch1_ctl_btn;
 	if (ch1_ctl_btn)
 	{
-		osc_ui_ch12_ctl_sel(1);
+		osc_ui_btn_ctl_sel(1);
 	}
 	else
 	{
-		osc_ui_ch12_ctl_sel(0);
+		osc_ui_btn_ctl_sel(0);
 	}
 }
 
@@ -329,11 +331,28 @@ void bsps_touch_ch2_ctl_task(void)
 	ch2_ctl_btn = !ch2_ctl_btn;
 	if (ch2_ctl_btn)
 	{
-		osc_ui_ch12_ctl_sel(2);
+		osc_ui_btn_ctl_sel(2);
 	}
 	else
 	{
-		osc_ui_ch12_ctl_sel(0);
+		osc_ui_btn_ctl_sel(0);
+	}
+}
+
+/**
+ * @description: 触发控制按钮切换任务
+ * @return {*}
+ */
+void bsps_touch_trig_ctl_task(void)
+{
+	trig_ctl_btn = !trig_ctl_btn;
+	if (trig_ctl_btn)
+	{
+		osc_ui_btn_ctl_sel(3);
+	}
+	else
+	{
+		osc_ui_btn_ctl_sel(0);
 	}
 }
 
@@ -366,15 +385,15 @@ void bsps_touch_ch1_ratio_task(void)
 	{
 		bsps_ui_ch12_vol_gain_draw(osc_vol_scale_table[run_msg->vol_scale[1]].strX10, 0);
 		bsps_ui_trig_vol_draw((float)((g_trig_bias - 307) * osc_vol_scale_table[run_msg->vol_scale[1]].mv_int) / 50.0 / 1000.0 * 10.0);
-		bsps_ui_ch12_ratio_draw(RATIO_1X, 0);
-		osc_ui_ch1_btn_sel(4);
+		bsps_ui_ch12_ratio_draw(RATIO_10X, 0);
+		osc_ui_ch1_btn_sel(1);
 	}
 	else if (ch1_ratio == RATIO_1X)
 	{
 		bsps_ui_ch12_vol_gain_draw(osc_vol_scale_table[run_msg->vol_scale[1]].str, 0);
 		bsps_ui_trig_vol_draw((float)((g_trig_bias - 307) * osc_vol_scale_table[run_msg->vol_scale[1]].mv_int) / 50.0 / 1000.0);
-		bsps_ui_ch12_ratio_draw(RATIO_10X, 0);
-		osc_ui_ch1_btn_sel(1);
+		bsps_ui_ch12_ratio_draw(RATIO_1X, 0);
+		osc_ui_ch1_btn_sel(4);
 	}
 }
 
@@ -455,13 +474,91 @@ void bsps_touch_ch2_coup_task(void)
 }
 
 /**
+ * @description: 触发模式切换
+ * @return {*}
+ */
+void bsps_touch_trig_mode_task(void)
+{
+	trig_mode++;
+	if(trig_mode >= 3)
+	{
+		trig_mode = 0;
+	}
+	if (trig_mode == 0)
+	{
+		bsps_ui_trig_mode_draw(TRIG_AUTO);
+		osc_ui_trig_btn_sel(0);
+	}
+	else if(trig_mode == 1)
+	{
+		bsps_ui_trig_mode_draw(TRIG_NORMAL);
+		osc_ui_trig_btn_sel(3);
+	}
+	else if(trig_mode == 2)
+	{
+		bsps_ui_trig_mode_draw(TRIG_SIGLE);
+		osc_ui_trig_btn_sel(6);
+	}
+}
+
+/**
+ * @description: 触发边沿切换
+ * @return {*}
+ */
+void bsps_touch_trig_edge_task(void)
+{
+	trig_edge++;
+	if(trig_edge >= 3)
+	{
+		trig_edge = 0;
+	}
+	if (trig_edge == 0)
+	{
+		bsps_sa_trig_edge_set(TRIG_EDGE_RISE);
+		bsps_ui_trig_edge_draw(TRIG_EDGE_RISE);
+		osc_ui_trig_btn_sel(1);
+	}
+	else if(trig_edge == 1)
+	{
+		bsps_sa_trig_edge_set(TRIG_EDGE_FALL);
+		bsps_ui_trig_edge_draw(TRIG_EDGE_FALL);
+		osc_ui_trig_btn_sel(4);
+	}
+	else if(trig_edge == 2)
+	{
+		bsps_sa_trig_edge_set(TRIG_EDGE_RISE_FALL);
+		bsps_ui_trig_edge_draw(TRIG_EDGE_RISE_FALL);
+		osc_ui_trig_btn_sel(7);
+	}
+}
+
+/**
+ * @description: 触发通道切换
+ * @return {*}
+ */
+void bsps_touch_trig_ch_task(void)
+{
+	trig_ch = !trig_ch;
+	if (!trig_ch)
+	{
+		bsps_ui_trig_ch_draw(TRIG_CH1);
+		osc_ui_trig_btn_sel(2);
+	}
+	else
+	{
+		bsps_ui_trig_ch_draw(TRIG_CH2);
+		osc_ui_trig_btn_sel(5);
+	}
+}
+
+/**
  * @description: 退出菜单
  * @return {*}
  */
 void bsps_touch_ch12_exit_menu_task(void)
 {
-	osc_ui_ch12_ctl_sel(0);
-	ch1_ctl_btn = ch2_ctl_btn = 0;
+	osc_ui_btn_ctl_sel(0);
+	ch1_ctl_btn = ch2_ctl_btn = trig_ctl_btn = 0;
 }
 
 void touch_test_task(void)
@@ -574,6 +671,7 @@ void bsps_touch_task(void)
 		// 通道控制按钮
 		bsps_touch_area_task(ch12_btn[0].msg.x, ch12_btn[0].msg.y, ch12_btn[0].msg.x + ch12_btn[0].msg.x_size, ch12_btn[0].msg.y + ch12_btn[0].msg.y_size, User_Touch, bsps_touch_ch1_ctl_task, 255);
 		bsps_touch_area_task(ch12_btn[1].msg.x, ch12_btn[1].msg.y, ch12_btn[1].msg.x + ch12_btn[1].msg.x_size, ch12_btn[1].msg.y + ch12_btn[1].msg.y_size, User_Touch, bsps_touch_ch2_ctl_task, 255);
+		bsps_touch_area_task(trig_btn.msg.x, trig_btn.msg.y, trig_btn.msg.x + trig_btn.msg.x_size, trig_btn.msg.y + trig_btn.msg.y_size, User_Touch, bsps_touch_trig_ctl_task, 255);
 		if (ch1_ctl_btn)
 		{
 			// 通道1菜单选择
@@ -593,6 +691,14 @@ void bsps_touch_task(void)
 			bsps_touch_area_task(20, 40, 320, 440, User_Touch, bsps_touch_ch12_exit_menu_task, 255);
 			bsps_touch_area_task(320, 40, 420, 290, User_Touch, bsps_touch_ch12_exit_menu_task, 255);
 			bsps_touch_area_task(420, 40, 720, 440, User_Touch, bsps_touch_ch12_exit_menu_task, 255);
+		}
+		else if(trig_ctl_btn)
+		{
+			bsps_touch_area_task(trig_bck_btn[0].parent->msg.x + trig_bck_btn[0].msg.x, trig_bck_btn[0].parent->msg.y + trig_bck_btn[0].msg.y, trig_bck_btn[0].parent->msg.x + trig_bck_btn[0].msg.x + trig_bck_btn[0].msg.x_size, trig_bck_btn[0].parent->msg.y + trig_bck_btn[0].msg.y + trig_bck_btn[0].msg.y_size, User_Touch, bsps_touch_trig_mode_task, 255);
+			bsps_touch_area_task(trig_bck_btn[1].parent->msg.x + trig_bck_btn[1].msg.x, trig_bck_btn[1].parent->msg.y + trig_bck_btn[1].msg.y, trig_bck_btn[1].parent->msg.x + trig_bck_btn[1].msg.x + trig_bck_btn[1].msg.x_size, trig_bck_btn[1].parent->msg.y + trig_bck_btn[1].msg.y + trig_bck_btn[1].msg.y_size, User_Touch, bsps_touch_trig_edge_task, 255);
+			bsps_touch_area_task(trig_bck_btn[2].parent->msg.x + trig_bck_btn[2].msg.x, trig_bck_btn[2].parent->msg.y + trig_bck_btn[2].msg.y, trig_bck_btn[2].parent->msg.x + trig_bck_btn[2].msg.x + trig_bck_btn[2].msg.x_size, trig_bck_btn[2].parent->msg.y + trig_bck_btn[2].msg.y + trig_bck_btn[2].msg.y_size, User_Touch, bsps_touch_trig_ch_task, 255);
+			bsps_touch_area_task(20, 40, 520, 440, User_Touch, bsps_touch_ch12_exit_menu_task, 255);
+			bsps_touch_area_task(520, 40, 720, 220, User_Touch, bsps_touch_ch12_exit_menu_task, 255);
 		}
 		else
 		{

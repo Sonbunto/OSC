@@ -1,3 +1,9 @@
+/*
+ * @Author: SUN  BI4NEG@gmail.com
+ * @Date: 2023-09-11 10:17:10
+ * @LastEditTime: 2023-12-11 14:37:54
+ * @Description: «ÎÃÓ–¥ºÚΩÈ
+ */
 #ifndef __BSPS_LCD_DRAW_H
 #define __BSPS_LCD_DRAW_H
 
@@ -21,8 +27,12 @@ static void bsps_ui_is_trig(void);
 void osc_ui_move_trig_lines(uint8_t chn,uint64_t posy);
 void osc_ui_trig_lines_show(unsigned char chn,unsigned char mode);
 void osc_ui_ch1_btn_sel(uint8_t index);
-void osc_ui_ch12_ctl_sel(uint8_t index);
+void osc_ui_btn_ctl_sel(uint8_t index);
 void bsps_ui_ch12_ratio_draw(uint8_t is_x10,uint8_t ch);
 void osc_ui_trig_btn_sel(uint8_t index);
+void bsps_ui_trig_mode_draw(uint8_t mode);
+void bsps_ui_trig_edge_draw(uint8_t edge);
+void bsps_ui_trig_ch_draw(uint8_t ch);
+void bsps_ui_trig_mode_draw(uint8_t mode);
 
 #endif

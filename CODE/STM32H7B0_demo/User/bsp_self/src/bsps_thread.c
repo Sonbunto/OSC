@@ -43,7 +43,7 @@ int bsps_thread_init(void)
     run_msg.is_pause = NO_PAUSE;
     run_msg.run_mode = MODE_WAVE;
     run_msg.trig_mode = TRIG_AUTO;
-    run_msg.trig_edge = EDGE_RISE;
+    run_msg.trig_edge = TRIG_EDGE_RISE;
     run_msg.menu_depth = 0;
     run_msg.ratio = RATIO_10X;
     run_msg.acdc = AC_COUPLE;

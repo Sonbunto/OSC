@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-09-11 10:17:02
- * @LastEditTime: 2023-12-11 12:34:43
+ * @LastEditTime: 2023-12-11 14:47:53
  * @Description: 请填写简介
  */
 /*
@@ -40,7 +40,7 @@ const char *trig_btn_text[8] = {"AT", "↑", "C1", "NR", "↓", "C2", "SG", "UF"};
 
 void osc_calculate_main_size(gui_dev_t *dev, window_t *win, unsigned short wf);
 void osc_calculate_trig_line(window_t *pwin, widget_t *wd, int chn);
-void osc_ui_btn_draw(widget_t *wd);
+void osc_ui_l1_btn_draw(widget_t *wd);
 static void osc_cfg_task(void);
 void osc_ui_right_btn_calculate(widget_t wid[]);
 void osc_ui_right_menu_calculate(window_t *win);
@@ -387,10 +387,10 @@ void bsps_ui_trig_vol_draw(float vol)
 	tFont.BackColor = CL_MASK;
 	tFont.Space = 0;
 
-	bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 25, 481 + 5 - (trig_btn.msg.y + trig_btn.msg.y_size), 18, 100, CL_CH12_BTN_BLOD);
+	bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 25, 481 + 2 - (trig_btn.msg.y + trig_btn.msg.y_size), 16, 100, CL_CH12_BTN_BLOD);
 
 	sprintf((char *)buf, "Vol:%.2fV", vol);
-	LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 25, trig_btn.msg.y - 5 + trig_btn.msg.y_size, (char *)buf, &tFont);
+	LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 25, trig_btn.msg.y - 3 + trig_btn.msg.y_size, (char *)buf, &tFont);
 }
 
 // 垂直电压控制数据绘制
@@ -404,6 +404,75 @@ void bsps_ui_ch12_vol_gain_draw(char *str, uint8_t ch)
 	bsp_lcd_fill_rect(LTDC_LAYER_1, ch12_btn[ch].msg.x + 55, 481 - (ch12_btn[ch].msg.y + ch12_btn[ch].msg.y_size), ch12_btn[ch].msg.y_size, 40, CL_CH12_BTN_BLOD);
 	// LCD_DispStr(LTDC_LAYER_1, 20, 35, "↑", &tFont);
 	LCD_DispStr(LTDC_LAYER_1, ch12_btn[ch].msg.x + 60, ch12_btn[ch].msg.y + ch12_btn[ch].msg.y_size / 2 + 6, (char *)str, &tFont);
+}
+
+void bsps_ui_trig_mode_draw(uint8_t mode)
+{
+	FONT_T tFont;
+	tFont.FontCode = FC_ST_16;
+	tFont.FrontColor = CL_GREY2;
+	tFont.BackColor = CL_MASK;
+	tFont.Space = 0;
+
+	bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 60, 481 - (trig_btn.msg.y + trig_btn.msg.y_size) + 18, 15, 35, CL_CH12_BTN_BLOD);
+
+	if (mode == TRIG_AUTO)
+	{
+		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 60, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "AUTO", &tFont);
+	}
+	else if (mode == TRIG_NORMAL)
+	{
+		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 60, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "NORM", &tFont);
+	}
+	else if (mode == TRIG_SIGLE)
+	{
+		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 60, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "SING", &tFont);
+	}
+}
+
+void bsps_ui_trig_ch_draw(uint8_t ch)
+{
+	FONT_T tFont;
+	tFont.FontCode = FC_ST_16;
+	tFont.FrontColor = CL_CH12_BTN_BLOD;
+	tFont.BackColor = CL_MASK;
+	tFont.Space = 0;
+
+	if (ch == TRIG_CH1)
+	{
+		bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 23, 481 - (trig_btn.msg.y + trig_btn.msg.y_size) + 18, 15, 26, CL_YELLOW);
+		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 25, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "CH1", &tFont);
+	}
+	else if (ch == TRIG_CH2)
+	{
+		bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 23, 481 - (trig_btn.msg.y + trig_btn.msg.y_size) + 18, 15, 26, CL_BLUE2);
+		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 25, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "CH2", &tFont);
+	}
+}
+
+void bsps_ui_trig_edge_draw(uint8_t edge)
+{
+	FONT_T tFont;
+	tFont.FontCode = FC_ST_16;
+	tFont.FrontColor = CL_GREY2;
+	tFont.BackColor = CL_MASK;
+	tFont.Space = 0;
+
+	if (edge == TRIG_EDGE_RISE)
+	{
+		bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 95, 481 - (trig_btn.msg.y + trig_btn.msg.y_size) + 18, 16, 32, CL_CH12_BTN_BLOD);
+		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 95, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "↑", &tFont);
+	}
+	else if (edge == TRIG_EDGE_FALL)
+	{
+		bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 95, 481 - (trig_btn.msg.y + trig_btn.msg.y_size) + 18, 16, 32, CL_CH12_BTN_BLOD);
+		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 95, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "↓", &tFont);
+	}
+	else if(edge == TRIG_EDGE_RISE_FALL)
+	{
+		bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 95, 481 - (trig_btn.msg.y + trig_btn.msg.y_size) + 18, 16, 32, CL_CH12_BTN_BLOD);
+		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 95, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "↑↓", &tFont);
+	}
 }
 
 void bsps_ui_base_fre_draw(void)
@@ -499,7 +568,7 @@ int bsps_ui_wave_init(void)
 	// wd1.msg.y = 100;
 	// wd1.msg.x_size = 70;
 	// wd1.msg.y_size = 50;
-	// wd1.draw = osc_ui_btn_draw;
+	// wd1.draw = osc_ui_l1_btn_draw;
 	// wd1.peer_linker = 0;
 	// wd1.parent = &win_main;
 
@@ -744,7 +813,7 @@ static void osc_cfg_task(void)
  * @param {widget_t} *wd
  * @return {*}
  */
-void osc_ui_btn_draw(widget_t *wd)
+void osc_ui_l1_btn_draw(widget_t *wd)
 {
 	// 圆角取模值
 	const unsigned short mod0 = 0x0364;
@@ -849,6 +918,20 @@ void osc_ui_btn_draw(widget_t *wd)
 	else if (wd->msg.x == 580)
 	{
 		bsps_ui_trig_vol_draw(0);
+		FONT_T tFont;
+		tFont.FontCode = FC_ST_16;
+		tFont.FrontColor = CL_CH12_BTN_BLOD;
+		tFont.BackColor = CL_MASK;
+		tFont.Space = 0;
+
+		bsp_lcd_fill_rect(LTDC_LAYER_1, wd->msg.x + 23, 481 - (wd->msg.y + wd->msg.y_size) + 18, 15, 26, CL_YELLOW);
+		LCD_DispStr(LTDC_LAYER_1, wd->msg.x + 25, (wd->msg.y + wd->msg.y_size) - 19, "CH1", &tFont);
+
+		tFont.FrontColor = CL_GREY2;
+		tFont.BackColor = CL_CH12_BTN_BLOD;
+		LCD_DispStr(LTDC_LAYER_1, wd->msg.x + 60, (wd->msg.y + wd->msg.y_size) - 19, "AUTO", &tFont);
+
+		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 100, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "↑", &tFont);
 	}
 }
 
@@ -870,10 +953,11 @@ void osc_ui_right_btn_calculate(widget_t wid[])
 		wid[i].msg.y_size = 70;
 		wid[i].msg.color = CL_R_BTN;
 		wid[i].msg.wflags &= ~GUI_BTN_BOLD;
-		wid[i].draw = osc_ui_btn_draw;
+		wid[i].draw = osc_ui_l1_btn_draw;
 		wid[i].peer_linker = 0;
 		wid[i].parent = &right_menu;
 		wid[i].msg.pri_data = "Sample";
+		wid[i].msg.layer = LTDC_LAYER_1;
 		gui_wid_creater(&wid[i]);
 	}
 }
@@ -891,6 +975,7 @@ void osc_ui_right_menu_calculate(window_t *win)
 	win->msg.y_size = 480;
 	win->dev = dev;
 	win->draw = 0;
+	win->msg.layer = LTDC_LAYER_1;
 	gui_win_creater(win);
 }
 
@@ -912,10 +997,11 @@ void osc_ui_ch12_ctl_btn_calculate(widget_t wid[])
 		wid[i].msg.y_size = 35;
 		wid[i].msg.color = CL_CH12_BTN_BLOD;
 		wid[i].msg.wflags |= GUI_BTN_BOLD;
-		wid[i].draw = osc_ui_btn_draw;
+		wid[i].draw = osc_ui_l1_btn_draw;
 		wid[i].peer_linker = 0;
 		wid[i].parent = &win_main;
 		wid[i].msg.pri_data = "CH12";
+		wid[i].msg.layer = LTDC_LAYER_1;
 		gui_wid_creater(&wid[i]);
 	}
 }
@@ -1009,7 +1095,12 @@ void osc_ui_ch12_menu_draw(window_t *win)
 	}
 }
 
-void osc_ui_ch_btn_draw(widget_t *wd)
+/**
+ * @description: l2按钮绘制api
+ * @param {widget_t} *wd 要绘制的按钮组件
+ * @return {*}
+ */
+void osc_ui_l2_btn_draw(widget_t *wd)
 {
 	// 圆角取模值
 	const unsigned short mod0 = 0x0364;
@@ -1116,16 +1207,17 @@ void osc_ui_ch12_menu_calculate(window_t *win, widget_t *wid)
 	win->msg.color = CL_CH12_BTN_BLOD;
 	win->draw = osc_ui_ch12_menu_draw;
 	win->dev = dev;
+	win->msg.layer = LTDC_LAYER_2;
 	SET_HIDE(win->msg.wflags);
 	gui_win_creater(win);
 }
 
 /**
- * @description: ch12菜单按钮通用绘制函数
- * @param {widget_t} *wid
+ * @description: 菜单高亮按钮通用绘制函数
+ * @param {widget_t} *wid 要绘制的按钮
  * @return {*}
  */
-void osc_ui_ch12_btn_draw(widget_t *wid)
+void osc_ui_highlight_btn_draw(widget_t *wid)
 {
 	if (!(wid->msg.wflags & GUI_CH_STA))
 	{
@@ -1135,7 +1227,7 @@ void osc_ui_ch12_btn_draw(widget_t *wid)
 	{
 		wid->msg.color = CL_BLUE2;
 	}
-	osc_ui_ch_btn_draw(wid);
+	osc_ui_l2_btn_draw(wid);
 
 	FONT_T tFont;
 	tFont.FontCode = FC_ST_16;
@@ -1162,7 +1254,7 @@ void osc_ui_ch12_btn_calculate(widget_t wid[], widget_t wid_btn[], window_t *par
 		wid[i].msg.x_size = 90;
 		wid[i].msg.y_size = 40;
 		wid[i].msg.color = CL_CH1_BTN_BLOD;
-		wid[i].draw = osc_ui_ch_btn_draw;
+		wid[i].draw = osc_ui_l2_btn_draw;
 		wid[i].msg.wflags |= GUI_BTN_BOLD;
 		wid[i].peer_linker = 0;
 		wid[i].msg.pri_data = "ON";
@@ -1174,7 +1266,7 @@ void osc_ui_ch12_btn_calculate(widget_t wid[], widget_t wid_btn[], window_t *par
 		wid_btn[i].parent = par;
 		wid_btn[i].msg.x_size = 45;
 		wid_btn[i].msg.y_size = 40;
-		wid_btn[i].draw = osc_ui_ch12_btn_draw;
+		wid_btn[i].draw = osc_ui_highlight_btn_draw;
 		wid_btn[i].peer_linker = 0;
 		wid_btn[i].msg.wflags |= GUI_BTN_BOLD;
 
@@ -1198,8 +1290,8 @@ void osc_ui_ch12_btn_calculate(widget_t wid[], widget_t wid_btn[], window_t *par
 }
 
 /**
- * @description: 按钮选择
- * @param {uint8_t} index 见字符数组顺序
+ * @description: 通道1菜单中按钮选择
+ * @param {uint8_t} index 要高亮的按钮，见字符数组顺序
  * @return {*}
  */
 void osc_ui_ch1_btn_sel(uint8_t index)
@@ -1211,6 +1303,11 @@ void osc_ui_ch1_btn_sel(uint8_t index)
 	gui_create_event();
 }
 
+/**
+ * @description: 通道2菜单中按钮选择
+ * @param {uint8_t} index 要高亮的按钮
+ * @return {*}
+ */
 void osc_ui_ch2_btn_sel(uint8_t index)
 {
 	ch2_btn[index].msg.wflags |= GUI_CH_STA;
@@ -1220,28 +1317,45 @@ void osc_ui_ch2_btn_sel(uint8_t index)
 	gui_create_event();
 }
 
-void osc_ui_ch12_ctl_sel(uint8_t index)
+/**
+ * @description: 菜单按钮展开选择
+ * @param {uint8_t} index 要展开的菜单
+ * @return {*}
+ */
+void osc_ui_btn_ctl_sel(uint8_t index)
 {
 	if (index == 0)
 	{
+		SET_HIDE(trig_menu.msg.wflags);
 		SET_HIDE(ch12_menu[1].msg.wflags);
 		SET_HIDE(ch12_menu[0].msg.wflags);
 		osc_dev_l2_disable();
 	}
 	else if (index == 1)
 	{
+		SET_HIDE(trig_menu.msg.wflags);
 		SET_HIDE(ch12_menu[1].msg.wflags);
 		gui_show_win(&ch12_menu[0]);
-		// gui_show_win_noload(&ch12_menu[0]);
 	}
 	else if (index == 2)
 	{
+		SET_HIDE(trig_menu.msg.wflags);
 		SET_HIDE(ch12_menu[0].msg.wflags);
 		gui_show_win(&ch12_menu[1]);
-		// gui_show_win_noload(&ch12_menu[1]);
+	}
+	else if (index == 3)
+	{
+		SET_HIDE(ch12_menu[0].msg.wflags);
+		SET_HIDE(ch12_menu[1].msg.wflags);
+		gui_show_win(&trig_menu);
 	}
 }
 
+/**
+ * @description: 触发按钮组件计算
+ * @param {widget_t} *wid 触发按钮组件
+ * @return {*}
+ */
 void osc_ui_trig_btn_calculate(widget_t *wid)
 {
 	wid->msg.x = ch12_btn[1].msg.x + ch12_btn[1].msg.x_size + 150;
@@ -1250,7 +1364,7 @@ void osc_ui_trig_btn_calculate(widget_t *wid)
 	wid->msg.y_size = 35;
 	wid->msg.color = CL_CH12_BTN_BLOD;
 	wid->msg.wflags |= GUI_BTN_BOLD;
-	wid->draw = osc_ui_btn_draw;
+	wid->draw = osc_ui_l1_btn_draw;
 	wid->peer_linker = 0;
 	wid->parent = &win_main;
 	wid->msg.pri_data = "TRIG";
@@ -1258,9 +1372,9 @@ void osc_ui_trig_btn_calculate(widget_t *wid)
 }
 
 /**
- * @description:
- * @param {window_t} *win
- * @param {widget_t} *wid
+ * @description: 触发菜单窗口计算
+ * @param {window_t} *win 触发菜单窗口
+ * @param {widget_t} *wid 触发按钮组件
  * @return {*}
  */
 void osc_ui_trig_menu_calculate(window_t *win, widget_t *wid)
@@ -1272,10 +1386,17 @@ void osc_ui_trig_menu_calculate(window_t *win, widget_t *wid)
 	win->msg.color = CL_CH12_BTN_BLOD;
 	win->draw = osc_ui_ch12_menu_draw;
 	win->dev = dev;
-	// SET_HIDE(win->msg.wflags);
+	SET_HIDE(win->msg.wflags);
 	gui_win_creater(win);
 }
 
+/**
+ * @description: 触发菜单中按钮控件计算
+ * @param {widget_t} wid 背景按钮
+ * @param {widget_t} wid_btn 高亮按钮
+ * @param {window_t} *par 父窗口
+ * @return {*}
+ */
 void osc_ui_trig_menu_btn_calculate(widget_t wid[], widget_t wid_btn[], window_t *par)
 {
 	for (uint16_t i = 0; i < 3; i++)
@@ -1290,7 +1411,7 @@ void osc_ui_trig_menu_btn_calculate(widget_t wid[], widget_t wid_btn[], window_t
 		}
 		wid[i].msg.y_size = 40;
 		wid[i].msg.color = CL_CH1_BTN_BLOD;
-		wid[i].draw = osc_ui_ch_btn_draw;
+		wid[i].draw = osc_ui_l2_btn_draw;
 		wid[i].msg.wflags |= GUI_BTN_BOLD;
 		wid[i].peer_linker = 0;
 		gui_wid_creater(&wid[i]);
@@ -1301,7 +1422,7 @@ void osc_ui_trig_menu_btn_calculate(widget_t wid[], widget_t wid_btn[], window_t
 		wid_btn[i].parent = par;
 		wid_btn[i].msg.x_size = 40;
 		wid_btn[i].msg.y_size = 40;
-		wid_btn[i].draw = osc_ui_ch12_btn_draw;
+		wid_btn[i].draw = osc_ui_highlight_btn_draw;
 		wid_btn[i].peer_linker = 0;
 		wid_btn[i].msg.wflags |= GUI_BTN_BOLD;
 
@@ -1320,7 +1441,7 @@ void osc_ui_trig_menu_btn_calculate(widget_t wid[], widget_t wid_btn[], window_t
 			wid_btn[i].msg.y = par->msg.y_size - 5 - (i + 1 - 3) * 60;
 			wid_btn[i].msg.pri_data = trig_btn_text[i];
 		}
-		else if((i >=6) && (i < 8))
+		else if ((i >= 6) && (i < 8))
 		{
 			wid_btn[i].msg.color = CL_CH1_BTN_BLOD;
 			wid_btn[i].msg.x = 0 + 85;
@@ -1331,27 +1452,32 @@ void osc_ui_trig_menu_btn_calculate(widget_t wid[], widget_t wid_btn[], window_t
 	}
 }
 
+/**
+ * @description: 触发菜单按钮选择
+ * @param {uint8_t} index 要选中高亮的按钮序号
+ * @return {*}
+ */
 void osc_ui_trig_btn_sel(uint8_t index)
 {
-	if(index == 0 || index == 3 || index == 6)
+	if (index == 0 || index == 3 || index == 6)
 	{
-		for(uint8_t i = 0; i <= 6; i += 3)
+		for (uint8_t i = 0; i <= 6; i += 3)
 		{
 			trig_sel_btn[i].msg.wflags &= ~GUI_CH_STA;
 			CLEAR_DRAWED(trig_sel_btn[i].msg.wflags);
 		}
 	}
-	else if(index == 1 || index == 4 || index == 7)
+	else if (index == 1 || index == 4 || index == 7)
 	{
-		for(uint8_t i = 1; i <= 7; i += 3)
+		for (uint8_t i = 1; i <= 7; i += 3)
 		{
 			trig_sel_btn[i].msg.wflags &= ~GUI_CH_STA;
 			CLEAR_DRAWED(trig_sel_btn[i].msg.wflags);
 		}
 	}
-	else if(index == 2 || index == 5)
+	else if (index == 2 || index == 5)
 	{
-		for(uint8_t i = 2; i <= 5; i += 3)
+		for (uint8_t i = 2; i <= 5; i += 3)
 		{
 			trig_sel_btn[i].msg.wflags &= ~GUI_CH_STA;
 			CLEAR_DRAWED(trig_sel_btn[i].msg.wflags);
