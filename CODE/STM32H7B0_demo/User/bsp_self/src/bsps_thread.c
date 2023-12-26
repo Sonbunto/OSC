@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-11-09 18:12:36
- * @LastEditTime: 2023-12-11 20:37:52
+ * @LastEditTime: 2023-12-26 15:04:45
  * @Description: ÇëÌîÐ´¼ò½é
  */
 #include "bsp.h"
@@ -23,7 +23,16 @@ void bsps_thread(void)
     if (OSC_DMA_CHECK_TC())
     {
         OSC_DMA_CLEAR_TC();
-        if (run_msg->ch1_sta == CH_ON)
+        if (run_msg->ch1_sta == CH_ON && run_msg->ch2_sta == CH_ON)
+        {
+            bsp_lcd_fill_rect(LTDC_LAYER_1, 20, 40, 400, 700, CL_BLACK);
+            bsps_ui_main_win_draw();
+            bsps_sa_trig_read();
+            bsp_lcd_draw_lines(disp_x_data, disp_data[1], 700, CL_YELLOW);
+            bsp_lcd_draw_lines(disp_x_data, disp_data[0], 700, CL_CH2);
+            off_clear = 0;
+        }
+        else if(run_msg->ch1_sta == CH_ON)
         {
             bsp_lcd_fill_rect(LTDC_LAYER_1, 20, 40, 400, 700, CL_BLACK);
             bsps_ui_main_win_draw();
@@ -33,9 +42,13 @@ void bsps_thread(void)
         }
         else if(run_msg->ch2_sta == CH_ON)
         {
-
+            bsp_lcd_fill_rect(LTDC_LAYER_1, 20, 40, 400, 700, CL_BLACK);
+            bsps_ui_main_win_draw();
+            bsps_sa_trig_read();
+            bsp_lcd_draw_lines(disp_x_data, disp_data[0], 700, CL_CH2);
+            off_clear = 0;
         }
-        else if(run_msg->ch1_sta == CH_OFF && run_msg->ch2_sta == CH_OFF && off_clear == 0)
+        if(run_msg->ch1_sta == CH_OFF && run_msg->ch2_sta == CH_OFF && off_clear == 0)
         {
             bsp_lcd_fill_rect(LTDC_LAYER_1, 20, 40, 400, 700, CL_BLACK);
             bsps_ui_main_win_draw();
@@ -61,6 +74,7 @@ int bsps_thread_init(void)
     run_msg.run_mode = MODE_WAVE;
     run_msg.trig_mode = TRIG_AUTO;
     run_msg.trig_edge = TRIG_EDGE_RISE;
+    run_msg.trig_src = TRIG_CH1;
     run_msg.menu_depth = 0;
     run_msg.ratio = RATIO_10X;
     run_msg.acdc = AC_COUPLE;
@@ -69,9 +83,11 @@ int bsps_thread_init(void)
     bsps_time_psc_set(5);
     run_msg.vol_scale[0] = 5;
     run_msg.vol_scale[1] = 5;
+    run_msg.offset_lev[0] = 0;
+    run_msg.offset_lev[1] = 0;
     bsps_vol_scale_set_ch2(5);
     run_msg.ch1_sta = CH_ON;
-    run_msg.ch2_sta = CH_OFF;
+    run_msg.ch2_sta = CH_ON;
 
     return OS_OK;
 }

@@ -57,7 +57,7 @@ static int bsps_sa_init(void)
 	GPIO_Handle.Pin = GPIO_PIN_10;
 	HAL_GPIO_Init(GPIOA, &GPIO_Handle);
 
-	GPIO_Handle.Pin = 0xff;
+	GPIO_Handle.Pin = 0xffff;
 	GPIO_Handle.Mode = GPIO_MODE_INPUT;
 	GPIO_Handle.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOD, &GPIO_Handle);
@@ -144,7 +144,7 @@ static void bsps_sa_dma_init(unsigned char freq_mode, unsigned char trig_mode, u
 	/* start */
 	if (freq_mode == 0)
 	{
-		HAL_DMA_Start_IT(&hdma_cho, (uint32_t)&GPIOD->IDR, (uint32_t)src_fifo0_0, FIFO_DBS_0); // test , mode
+		HAL_DMA_Start_IT(&hdma_cho, (uint32_t)&GPIOD->IDR, src_fifo0_0, FIFO_DBS_0); // test , mode
 		DMA2_Stream0->CR |= (1 << 3);														   // 半传输完成中断开启
 		return;
 	}
@@ -346,8 +346,8 @@ void bsps_sa_trig_read(void)
 	// 转换显示数据
 	for (uint16_t i = 0; i < 700; i++)
 	{
-		disp_data[0][i] = (float)cache_fifo[0][i] * 400.0f / 256.0f * 1.25f + 240;
-		disp_data[1][i] = ((float)cache_fifo[1][i] / 256.0f * 1.25f - 0.625) * 400 + 240;
+		disp_data[0][i] = ((float)cache_fifo[0][i] / 256.0f * 1.24f - 0.62) * 400 + 240 + run_msg->offset_lev[1];
+		disp_data[1][i] = ((float)cache_fifo[1][i] / 256.0f * 1.24f - 0.62) * 400 + 240 + run_msg->offset_lev[0];
 		if (disp_data[1][i] >= 440)
 		{
 			disp_data[1][i] = 440;
@@ -355,6 +355,14 @@ void bsps_sa_trig_read(void)
 		else if (disp_data[1][i] <= 40)
 		{
 			disp_data[1][i] = 40;
+		}
+		if (disp_data[0][i] >= 440)
+		{
+			disp_data[0][i] = 440;
+		}
+		else if (disp_data[0][i] <= 40)
+		{
+			disp_data[0][i] = 40;
 		}
 	}
 }

@@ -29,7 +29,7 @@ enum
 	CL_GREEN        = RGB(  0,255,  0),	/* 绿色 */
 	CL_BLUE         = RGB(  0,	0,255),	/* 蓝色 */
 	CL_YELLOW       = RGB(255,255,  0),	/* 黄色 */
-	CL_ORIG       	= RGB(255,255,  0),	/* 橘色 */
+	CL_ORIG       	= RGB(255,97,  0),	/* 橘色 */
 
 	CL_GREY			= RGB( 98, 98, 98), 	/* 深灰色 */
 	CL_GREY1		= RGB( 150, 150, 150), 	/* 浅灰色 */
@@ -47,13 +47,15 @@ enum
 	CL_BLUE3        = RGB(  68, 68, 255),		/* 浅蓝色1 */
 	CL_BLUE4        = RGB(  0, 64, 128),		/* 浅蓝色1 */
 
-	/* UI 界面 Windows控件常用色 */
 	CL_BTN_FACE		= RGB(236, 233, 216),	/* 按钮表面颜色(灰) */
 	
 	CL_BTN_FONT		= CL_BLACK,				/* 按钮字体颜色（黑） */
 	
 	CL_BOX_BORDER1	= RGB(172, 168,153),	/* 分组框主线颜色 */
 	CL_BOX_BORDER2	= RGB(255, 255,255),	/* 分组框阴影线颜色 */
+
+	CL_CH1       	= RGB(255, 255,  0),			/* CH1主题色 */
+	CL_CH2        	= RGB(  0, 251, 255),		/* CH2主题色 */
 
 
 	CL_MASK			= 0x9999	/* 颜色掩码，用于文字背景透明 */

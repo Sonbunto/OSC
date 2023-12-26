@@ -1,3 +1,9 @@
+/*
+ * @Author: SUN  BI4NEG@gmail.com
+ * @Date: 2023-11-12 15:13:52
+ * @LastEditTime: 2023-12-26 17:47:35
+ * @Description: 请填写简介
+ */
 #ifndef __BSPS_PERIPH_H
 #define __BSPS_PERIPH_H
 
@@ -30,10 +36,12 @@ typedef struct
 	char * strX10;
     //继电器衰减回路选择
 	unsigned short rly_att;
-    //暂时不知道
+    //垂直电压增益数值表示
     unsigned short mv_int;
     //电阻衰减回路选择
 	unsigned short att_sel[2];
+    //实际输入到ADC端增益倍数，注意此值未乘以10倍衰减
+    float gain;
 }osc_vol_scale_t;
 
 extern const osc_time_t osc_tim_table[];
@@ -71,11 +79,17 @@ void bsps_time_psc_set(uint8_t index);
 void bsps_time_inc(void);
 void bsps_time_dec(void);
 
+void bsps_vol_scale_set_ch1(uint8_t index);
+void bsps_vol_scale_inc_ch1(void);
+void bsps_vol_scale_dec_ch1(void);
+
 void bsps_vol_scale_set_ch2(uint8_t index);
 void bsps_vol_scale_inc_ch2(void);
 void bsps_vol_scale_dec_ch2(void);
 
 void bsps_trig_lev_set(uint16_t trig);
 void bsps_ratio_set(uint8_t ratio);
+
+void bsps_beep_on(uint16_t time);
 
 #endif

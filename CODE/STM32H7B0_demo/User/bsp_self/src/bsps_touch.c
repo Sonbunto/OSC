@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-10-03 16:37:46
- * @LastEditTime: 2023-12-11 20:46:40
+ * @LastEditTime: 2023-12-26 18:44:44
  * @Description: ÇëÌîÐ´¼ò½é
  */
 /*
@@ -40,7 +40,7 @@ uint8_t acdc_flag = 0;
 
 OS_INIT_REGISTER("touch_init", bsps_gt911_init, 0, 3);
 
-OS_TSK_REGISTER(bsps_gt911_scanf, PRIORITY_2, 50);
+OS_TSK_REGISTER(bsps_gt911_scanf, PRIORITY_2, 20);
 
 void bsps_gt911_w_reg(uint16_t _usRegAddr, uint8_t *_pRegBuf, uint8_t _ucLen)
 {
@@ -188,21 +188,48 @@ void bsps_touch_trig_task(void)
 		bsps_ui_trig_vol_draw((float)((g_trig_bias - 240) * osc_vol_scale_table[run_msg->vol_scale[1]].mv_int) / 50.0 / 1000.0);
 	}
 
-	bsps_trig_lev_set(g_trig_bias - 40);
+	bsps_trig_lev_set(g_trig_bias);
 }
 
 // ´¥ÃþµçÑ¹Æ«ÒÆÈÎÎñ
-void bsps_touch_bias_task(void)
+void bsps_touch_bias_ch1_task(void)
 {
-	g_vol_bias = 307 - User_Touch.Touch_XY[0].Y_Point;
-	if (g_vol_bias >= 200)
+	int bias = 0;
+
+	run_msg_t *run_msg = bsps_get_run_msg();
+
+	bias = 480 - User_Touch.Touch_XY[0].Y_Point - 240;
+
+	if (bias >= 200)
 	{
-		g_vol_bias = 200;
+		bias = 200;
 	}
-	else if (g_vol_bias <= -200)
+	else if (bias <= -200)
 	{
-		g_vol_bias = -200;
+		bias = -200;
 	}
+
+	run_msg->offset_lev[0] = bias;
+}
+
+void bsps_touch_bias_ch2_task(void)
+{
+	int bias = 0;
+
+	run_msg_t *run_msg = bsps_get_run_msg();
+
+	bias = 480 - User_Touch.Touch_XY[0].Y_Point - 240;
+
+	if (bias >= 200)
+	{
+		bias = 200;
+	}
+	else if (bias <= -200)
+	{
+		bias = -200;
+	}
+
+	run_msg->offset_lev[1] = bias;
 }
 
 // Ä£Ê½ÇÐ»» 0Îª²¨ÐÎÏÔÊ¾ 1ÎªÆµÆ×ÏÔÊ¾
@@ -387,15 +414,21 @@ void bsps_touch_ch1_ratio_task(void)
 	ch1_ratio = !ch1_ratio;
 	if (ch1_ratio == RATIO_10X)
 	{
-		bsps_ui_ch12_vol_gain_draw(osc_vol_scale_table[run_msg->vol_scale[1]].strX10, 0);
-		bsps_ui_trig_vol_draw((float)((g_trig_bias - 307) * osc_vol_scale_table[run_msg->vol_scale[1]].mv_int) / 50.0 / 1000.0 * 10.0);
+		if (run_msg->trig_src == TRIG_CH1)
+		{
+			bsps_ui_ch12_vol_gain_draw(osc_vol_scale_table[run_msg->vol_scale[1]].strX10, 0);
+			bsps_ui_trig_vol_draw((float)((g_trig_bias - 240) * osc_vol_scale_table[run_msg->vol_scale[1]].mv_int) / 50.0 / 1000.0 * 10.0);
+		}
 		bsps_ui_ch12_ratio_draw(RATIO_10X, 0);
 		osc_ui_ch1_btn_sel(1);
 	}
 	else if (ch1_ratio == RATIO_1X)
 	{
-		bsps_ui_ch12_vol_gain_draw(osc_vol_scale_table[run_msg->vol_scale[1]].str, 0);
-		bsps_ui_trig_vol_draw((float)((g_trig_bias - 307) * osc_vol_scale_table[run_msg->vol_scale[1]].mv_int) / 50.0 / 1000.0);
+		if (run_msg->trig_src == TRIG_CH1)
+		{
+			bsps_ui_ch12_vol_gain_draw(osc_vol_scale_table[run_msg->vol_scale[1]].str, 0);
+			bsps_ui_trig_vol_draw((float)((g_trig_bias - 240) * osc_vol_scale_table[run_msg->vol_scale[1]].mv_int) / 50.0 / 1000.0);
+		}
 		bsps_ui_ch12_ratio_draw(RATIO_1X, 0);
 		osc_ui_ch1_btn_sel(4);
 	}
@@ -449,16 +482,27 @@ void bsps_touch_ch2_en_task(void)
  */
 void bsps_touch_ch2_ratio_task(void)
 {
+	run_msg_t *run_msg = bsps_get_run_msg();
 	ch2_ratio = !ch2_ratio;
-	if (ch2_ratio)
+	if (ch2_ratio == RATIO_10X)
 	{
-		bsps_ui_ch12_ratio_draw(0, 1);
-		osc_ui_ch2_btn_sel(4);
-	}
-	else
-	{
-		bsps_ui_ch12_ratio_draw(0, 1);
+		if (run_msg->trig_src == TRIG_CH2)
+		{
+			bsps_ui_ch12_vol_gain_draw(osc_vol_scale_table[run_msg->vol_scale[1]].strX10, 1);
+			bsps_ui_trig_vol_draw((float)((g_trig_bias - 240) * osc_vol_scale_table[run_msg->vol_scale[1]].mv_int) / 50.0 / 1000.0 * 10.0);
+		}
+		bsps_ui_ch12_ratio_draw(RATIO_10X, 1);
 		osc_ui_ch2_btn_sel(1);
+	}
+	else if (ch2_ratio == RATIO_1X)
+	{
+		if (run_msg->trig_src == TRIG_CH2)
+		{
+			bsps_ui_ch12_vol_gain_draw(osc_vol_scale_table[run_msg->vol_scale[1]].str, 1);
+			bsps_ui_trig_vol_draw((float)((g_trig_bias - 240) * osc_vol_scale_table[run_msg->vol_scale[1]].mv_int) / 50.0 / 1000.0);
+		}
+		bsps_ui_ch12_ratio_draw(RATIO_1X, 1);
+		osc_ui_ch2_btn_sel(4);
 	}
 }
 
@@ -469,13 +513,15 @@ void bsps_touch_ch2_ratio_task(void)
 void bsps_touch_ch2_coup_task(void)
 {
 	ch2_coup = !ch2_coup;
-	if (ch2_coup)
+	if (ch2_coup == DC_COUPLE)
 	{
+		bsps_sa_oh_dc_ch1();
 		bsps_ui_ch12_acdc_draw(0, 1);
 		osc_ui_ch2_btn_sel(3);
 	}
-	else
+	else if (ch2_coup == AC_COUPLE)
 	{
+		bsps_sa_oh_ac_ch1();
 		bsps_ui_ch12_acdc_draw(1, 1);
 		osc_ui_ch2_btn_sel(0);
 	}
@@ -490,7 +536,7 @@ void bsps_touch_trig_mode_task(void)
 	run_msg_t *run_msg = bsps_get_run_msg();
 
 	trig_mode++;
-	if(trig_mode >= 3)
+	if (trig_mode >= 3)
 	{
 		trig_mode = 0;
 	}
@@ -500,13 +546,13 @@ void bsps_touch_trig_mode_task(void)
 		bsps_ui_trig_mode_draw(TRIG_AUTO);
 		osc_ui_trig_btn_sel(0);
 	}
-	else if(trig_mode == 1)
+	else if (trig_mode == 1)
 	{
 		run_msg->trig_mode = TRIG_NORMAL;
 		bsps_ui_trig_mode_draw(TRIG_NORMAL);
 		osc_ui_trig_btn_sel(3);
 	}
-	else if(trig_mode == 2)
+	else if (trig_mode == 2)
 	{
 		run_msg->trig_mode = TRIG_SIGLE;
 		bsps_ui_trig_mode_draw(TRIG_SIGLE);
@@ -521,7 +567,7 @@ void bsps_touch_trig_mode_task(void)
 void bsps_touch_trig_edge_task(void)
 {
 	trig_edge++;
-	if(trig_edge >= 3)
+	if (trig_edge >= 3)
 	{
 		trig_edge = 0;
 	}
@@ -531,13 +577,13 @@ void bsps_touch_trig_edge_task(void)
 		bsps_ui_trig_edge_draw(TRIG_EDGE_RISE);
 		osc_ui_trig_btn_sel(1);
 	}
-	else if(trig_edge == 1)
+	else if (trig_edge == 1)
 	{
 		bsps_sa_trig_edge_set(TRIG_EDGE_FALL);
 		bsps_ui_trig_edge_draw(TRIG_EDGE_FALL);
 		osc_ui_trig_btn_sel(4);
 	}
-	else if(trig_edge == 2)
+	else if (trig_edge == 2)
 	{
 		bsps_sa_trig_edge_set(TRIG_EDGE_RISE_FALL);
 		bsps_ui_trig_edge_draw(TRIG_EDGE_RISE_FALL);
@@ -551,14 +597,18 @@ void bsps_touch_trig_edge_task(void)
  */
 void bsps_touch_trig_ch_task(void)
 {
+	run_msg_t *run_msg = bsps_get_run_msg();
+
 	trig_ch = !trig_ch;
 	if (!trig_ch)
 	{
+		run_msg->trig_src = TRIG_CH1;
 		bsps_ui_trig_ch_draw(TRIG_CH1);
 		osc_ui_trig_btn_sel(2);
 	}
 	else
 	{
+		run_msg->trig_src = TRIG_CH2;
 		bsps_ui_trig_ch_draw(TRIG_CH2);
 		osc_ui_trig_btn_sel(5);
 	}
@@ -577,7 +627,7 @@ void bsps_touch_ch12_exit_menu_task(void)
 void touch_test_task(void)
 {
 	tmp_cnt += 3;
-	if(tmp_cnt > 6)
+	if (tmp_cnt > 6)
 	{
 		tmp_cnt = 0;
 	}
@@ -705,7 +755,7 @@ void bsps_touch_task(void)
 			bsps_touch_area_task(320, 40, 420, 290, User_Touch, bsps_touch_ch12_exit_menu_task, 255);
 			bsps_touch_area_task(420, 40, 720, 440, User_Touch, bsps_touch_ch12_exit_menu_task, 255);
 		}
-		else if(trig_ctl_btn)
+		else if (trig_ctl_btn)
 		{
 			bsps_touch_area_task(trig_bck_btn[0].parent->msg.x + trig_bck_btn[0].msg.x, trig_bck_btn[0].parent->msg.y + trig_bck_btn[0].msg.y, trig_bck_btn[0].parent->msg.x + trig_bck_btn[0].msg.x + trig_bck_btn[0].msg.x_size, trig_bck_btn[0].parent->msg.y + trig_bck_btn[0].msg.y + trig_bck_btn[0].msg.y_size, User_Touch, bsps_touch_trig_mode_task, 255);
 			bsps_touch_area_task(trig_bck_btn[1].parent->msg.x + trig_bck_btn[1].msg.x, trig_bck_btn[1].parent->msg.y + trig_bck_btn[1].msg.y, trig_bck_btn[1].parent->msg.x + trig_bck_btn[1].msg.x + trig_bck_btn[1].msg.x_size, trig_bck_btn[1].parent->msg.y + trig_bck_btn[1].msg.y + trig_bck_btn[1].msg.y_size, User_Touch, bsps_touch_trig_edge_task, 255);
@@ -716,7 +766,11 @@ void bsps_touch_task(void)
 		else
 		{
 			// ´¥·¢Ïß
-			bsps_touch_area_task(20, 40, 370, 440, User_Touch, bsps_touch_trig_task, 255);
+			bsps_touch_area_task(20, 40, 370, 440, User_Touch, bsps_touch_trig_task, 254);
+			// ch1²¨ÐÎÆ«ÒÆ
+			bsps_touch_area_task(370, 40, 570, 440, User_Touch, bsps_touch_bias_ch1_task, 254);
+			// ch2²¨ÐÎÆ«ÒÆ
+			bsps_touch_area_task(570, 40, 720, 440, User_Touch, bsps_touch_bias_ch2_task, 254);
 		}
 	}
 }
@@ -741,7 +795,11 @@ void bsps_touch_area_task(uint16_t _usX1, uint16_t _usY1, uint16_t _usX2, uint16
 
 	if ((touch.Touch_XY[0].X_Point >= _usX1) && (touch.Touch_XY[0].X_Point <= _usX2) && (480 - touch.Touch_XY[0].Y_Point <= _usY2) && (480 - touch.Touch_XY[0].Y_Point >= _usY1) && touch_flag)
 	{
-		if (depth == 255)
+		if (depth != 254)
+		{
+			bsps_beep_on(1);
+		}
+		if (depth == 255 || depth == 254)
 		{
 			task();
 		}

@@ -7,11 +7,15 @@ DAC_HandleTypeDef hdac2;
 
 
 uint8_t cnt_time = 3;
-uint8_t cnt_vol_scale = 5;
+uint8_t cnt_vol_scale_ch1 = 5;
+uint8_t cnt_vol_scale_ch2 = 5;
+uint16_t beep_hold_time_s = 0;
 
 int bsps_sa_periph_init(void);
+void bsps_beep_task(void);
 
 OS_INIT_REGISTER("periph_init", bsps_sa_periph_init, 0, 1);
+OS_TSK_REGISTER(bsps_beep_task, PRIORITY_4, 50);
 
 const osc_time_t osc_tim_table[] = 
 {
@@ -81,6 +85,7 @@ osc_vol_scale_t osc_vol_scale_table[] =
 		.rly_att = 1,
 		.att_sel[0] = 4,
 		.att_sel[1] = 0,
+		.gain = 10.3,
 	},
 	/* 2 */
 	{
@@ -90,6 +95,7 @@ osc_vol_scale_t osc_vol_scale_table[] =
 		.rly_att = 1,
 		.att_sel[0] = 6,
 		.att_sel[1] = 1,
+		.gain = 5.15,
 	},
 	/* 4 */
 	{
@@ -99,6 +105,7 @@ osc_vol_scale_t osc_vol_scale_table[] =
 		.rly_att = 1,
 		.att_sel[0] = 1,
 		.att_sel[1] = 3,
+		.gain = 2.06,
 	},
 	/* 5 */
 	{
@@ -108,6 +115,7 @@ osc_vol_scale_t osc_vol_scale_table[] =
 		.rly_att = 1,
 		.att_sel[0] = 3,
 		.att_sel[1] = 4,
+		.gain = 1.03,
 	},
 	/* 6 */
 	{
@@ -117,6 +125,7 @@ osc_vol_scale_t osc_vol_scale_table[] =
 		.rly_att = 1,
 		.att_sel[0] = 0,
 		.att_sel[1] = 5,
+		.gain = 0.515,
 	},
 /*---------------------------------------------------------------*/
 	/* 1 */
@@ -127,6 +136,7 @@ osc_vol_scale_t osc_vol_scale_table[] =
 		.rly_att = 0,
 		.att_sel[0] = 4,
 		.att_sel[1] = 0,
+		.gain = 0.206,
 	},
 	/* 2 */
 	{
@@ -136,6 +146,7 @@ osc_vol_scale_t osc_vol_scale_table[] =
 		.rly_att = 0,
 		.att_sel[0] = 6,
 		.att_sel[1] = 1,
+		.gain = 0.103,
 	},
 	/* 3 */
 	{
@@ -145,6 +156,7 @@ osc_vol_scale_t osc_vol_scale_table[] =
 		.rly_att = 0,
 		.att_sel[0] = 2,
 		.att_sel[1] = 2,
+		.gain = 0.0515,
 	},
 	/* 4 */
 	{
@@ -154,6 +166,7 @@ osc_vol_scale_t osc_vol_scale_table[] =
 		.rly_att = 0,
 		.att_sel[0] = 3,
 		.att_sel[1] = 4,
+		.gain = 0.0206,
 	},
 	/* 5 */
 	{
@@ -163,6 +176,7 @@ osc_vol_scale_t osc_vol_scale_table[] =
 		.rly_att = 0,
 		.att_sel[0] = 0,
 		.att_sel[1] = 5,
+		.gain = 0.0412,
 	},	
 };
 
@@ -210,7 +224,7 @@ int bsps_sa_periph_init(void)
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
 	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-	bsps_sa_sw_only_ch2();
+	bsps_sa_sw_ch1_ch2();
 
 	// IO_OH1 2
 	GPIO_InitStruct.Pin = GPIO_PIN_12 | GPIO_PIN_13;
@@ -253,6 +267,14 @@ int bsps_sa_periph_init(void)
 	HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 	bsps_sa_adc_mode_ch1_ch2_align();
 
+	//BEEP
+	GPIO_InitStruct.Pin = GPIO_PIN_5;
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	GPIO_InitStruct.Pull = GPIO_NOPULL;
+	GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+	HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET);
+
 	// PWM_DAC1
 	GPIO_InitStruct.Pin = GPIO_PIN_7;
 	GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -287,13 +309,13 @@ int bsps_sa_periph_init(void)
 	if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
 	{
 	}
-	bsps_sa_set_pwm_pulse_ch1(530);
-	bsps_sa_set_pwm_pulse_ch2(533);
+	bsps_sa_set_pwm_pulse_ch1(485);
+	bsps_sa_set_pwm_pulse_ch2(485);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
 
 	// exti
-	GPIO_InitStruct.Pin = GPIO_PIN_10;
+	GPIO_InitStruct.Pin = GPIO_PIN_10 | GPIO_PIN_11;
 	GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
 	GPIO_InitStruct.Pull = GPIO_NOPULL;
 	HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -319,7 +341,7 @@ void bsps_sa_rly_no_att_ch1(void)
 // CH1继电器选择
 void bsps_sa_rly_att_sel_ch1(uint8_t mode)
 {
-	HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, mode);
+	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8, mode);
 }
 
 // CH2继电器跳到衰减回路
@@ -370,32 +392,32 @@ void bsps_sa_att_sel_ch1(uint8_t att)
 	switch (att)
 	{
 	case 0:
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 0);
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, 1);
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, 0);
-		break;
-	case 1:
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 0);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 1);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, 0);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, 1);
-		break;
-	case 2:
+		break;                                
+	case 1:                                   
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 1);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, 1);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, 1);
+		break;                                
+	case 2:                                   
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 1);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, 1);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, 0);
+		break;                                
+	case 3:                                   
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 0);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, 0);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, 0);
-		break;
-	case 3:
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 0);
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, 1);
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, 1);
-		break;
-	case 4:
+		break;                                
+	case 4:                                   
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 1);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, 0);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, 0);
-		break;
-	case 5:
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 1);
+		break;                                
+	case 5:                                   
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_12, 0);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_13, 1);
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_14, 0);
 		break;
@@ -408,34 +430,34 @@ void bsps_sa_att_sel_ch2(uint8_t att)
 	switch (att)
 	{
 	case 0:
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 0);
-		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, 1);
-		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 1);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, 0);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 1);
 		break;                               
 	case 1:                                  
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 1);
-		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, 0);
-		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, 1);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 1);
 		break;                               
 	case 2:                                  
-		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 0);
-		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, 0);
-		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
-		break;                               
-	case 3:                                  
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 1);
 		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, 1);
 		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
 		break;                               
-	case 4:                                  
+	case 3:                                  
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 0);
 		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, 0);
-		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 1);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
+		break;                               
+	case 4:                                  
+		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 1);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, 0);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
 		break;                               
 	case 5:                                  
 		HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, 0);
 		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_7, 1);
-		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 1);
+		HAL_GPIO_WritePin(GPIOE, GPIO_PIN_8, 0);
 		break;
 	}
 }
@@ -471,7 +493,7 @@ void bsps_sa_sw_ch2_ch1(void)
 // 设置触发电压
 void bsps_sa_set_trig_vol(float vol)
 {
-	HAL_DAC_SetValue(&hdac2, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint16_t)(vol / 2.5 * 4096));
+	HAL_DAC_SetValue(&hdac2, DAC_CHANNEL_1, DAC_ALIGN_12B_R, (uint16_t)(vol / 3.3 * 4096));
 }
 
 // ADC模式 关闭
@@ -573,7 +595,46 @@ void bsps_time_dec(void)
 	bsps_time_psc_set(cnt_time);
 }
 
-//垂直电压增益设置
+//ch1垂直电压增益设置
+void bsps_vol_scale_set_ch1(uint8_t index)
+{
+    run_msg_t *run_msg = bsps_get_run_msg();
+
+    run_msg->vol_scale[0] = index;
+    
+    if(run_msg->ratio == RATIO_10X)
+	{
+		bsps_ui_ch12_vol_gain_draw(osc_vol_scale_table[index].strX10,1);
+	}	
+	else
+	{
+		bsps_ui_ch12_vol_gain_draw(osc_vol_scale_table[index].str,1);
+	}
+	bsps_sa_rly_att_sel_ch1(osc_vol_scale_table[index].rly_att);
+	bsps_sa_att_sel_ch1(osc_vol_scale_table[index].att_sel[1]);
+}
+
+//ch1垂直电压增益循环加
+void bsps_vol_scale_inc_ch1(void)
+{
+	if(cnt_vol_scale_ch1++ >= 9)
+	{
+		cnt_vol_scale_ch1 = 9;
+	}
+	bsps_vol_scale_set_ch1(cnt_vol_scale_ch1);
+}
+
+//ch1垂直电压增益循环减
+void bsps_vol_scale_dec_ch1(void)
+{
+	if(cnt_vol_scale_ch1-- <= 0)
+	{
+		cnt_vol_scale_ch1 = 0;
+	}
+	bsps_vol_scale_set_ch1(cnt_vol_scale_ch1);
+}
+
+//ch2垂直电压增益设置
 void bsps_vol_scale_set_ch2(uint8_t index)
 {
     run_msg_t *run_msg = bsps_get_run_msg();
@@ -592,31 +653,35 @@ void bsps_vol_scale_set_ch2(uint8_t index)
 	bsps_sa_att_sel_ch2(osc_vol_scale_table[index].att_sel[1]);
 }
 
-//垂直电压增益循环加
+//ch2垂直电压增益循环加
 void bsps_vol_scale_inc_ch2(void)
 {
-	if(cnt_vol_scale++ >= 9)
+	if(cnt_vol_scale_ch2++ >= 9)
 	{
-		cnt_vol_scale = 9;
+		cnt_vol_scale_ch2 = 9;
 	}
-	bsps_vol_scale_set_ch2(cnt_vol_scale);
+	bsps_vol_scale_set_ch2(cnt_vol_scale_ch2);
 }
 
-//垂直电压增益循环减
+//ch2垂直电压增益循环减
 void bsps_vol_scale_dec_ch2(void)
 {
-	if(cnt_vol_scale-- <= 0)
+	if(cnt_vol_scale_ch2-- <= 0)
 	{
-		cnt_vol_scale = 0;
+		cnt_vol_scale_ch2 = 0;
 	}
-	bsps_vol_scale_set_ch2(cnt_vol_scale);
+	bsps_vol_scale_set_ch2(cnt_vol_scale_ch2);
 }
 
+//触发电压DAC设置
 void bsps_trig_lev_set(uint16_t trig)
 {
-    bsps_sa_set_trig_vol((float)trig / 400.0f * 1.024f + 0.738f);
+	run_msg_t *run_msg = bsps_get_run_msg();
+
+    bsps_sa_set_trig_vol(((float)trig - 240) * osc_vol_scale_table[run_msg->vol_scale[1]].mv_int /50.0f / 1000.0f * 10.0f * osc_vol_scale_table[run_msg->vol_scale[1]].gain * (run_msg->ratio ? 0.1 : 1) + 1.24f);
 }
 
+//探头衰减设置
 void bsps_ratio_set(uint8_t ratio)
 {
     run_msg_t *run_msg = bsps_get_run_msg();
@@ -624,6 +689,29 @@ void bsps_ratio_set(uint8_t ratio)
     run_msg->ratio = ratio;
 }
 
+/**
+ * @description: 蜂鸣器任务
+ * @return {*}
+ */
+void bsps_beep_task(void)
+{
+	if(beep_hold_time_s == 0)
+	{
+		HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5,GPIO_PIN_RESET);
+	}
+	beep_hold_time_s--;
+}
+
+/**
+ * @description: 蜂鸣器启动
+ * @param {uint16_t} time 要响的时间 time * 50ms
+ * @return {*}
+ */
+void bsps_beep_on(uint16_t time)
+{
+	beep_hold_time_s = time;
+	HAL_GPIO_WritePin(GPIOB,GPIO_PIN_5,GPIO_PIN_SET);
+}
 
 
 

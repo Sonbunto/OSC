@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-09-11 10:17:02
- * @LastEditTime: 2023-12-11 21:04:02
+ * @LastEditTime: 2023-12-26 17:36:13
  * @Description: 请填写简介
  */
 /*
@@ -35,6 +35,7 @@ widget_t ch2_btn[6];
 widget_t trig_btn;
 widget_t trig_bck_btn[3];
 widget_t trig_sel_btn[8];
+widget_t mea_bck_btn[8];
 const char *ch12_btn_text[6] = {"AC", "X10", "ON", "DC", "X1", "OFF"};
 const char *trig_btn_text[8] = {"AT", "↑", "C1", "NR", "↓", "C2", "SG", "UF"};
 
@@ -50,6 +51,7 @@ void osc_ui_ch12_btn_calculate(widget_t wid[], widget_t wid_btn[], window_t *par
 void osc_ui_trig_btn_calculate(widget_t *wid);
 void osc_ui_trig_menu_calculate(window_t *win, widget_t *wid);
 void osc_ui_trig_menu_btn_calculate(widget_t wid[], widget_t wid_btn[], window_t *par);
+void osc_ui_mea_btn_calculate(widget_t wid[]);
 
 OS_INIT_REGISTER("ui_wave_init", bsps_ui_wave_init, 0, 1);
 
@@ -440,12 +442,12 @@ void bsps_ui_trig_ch_draw(uint8_t ch)
 
 	if (ch == TRIG_CH1)
 	{
-		bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 23, 481 - (trig_btn.msg.y + trig_btn.msg.y_size) + 18, 15, 26, CL_YELLOW);
+		bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 23, 481 - (trig_btn.msg.y + trig_btn.msg.y_size) + 18, 15, 26, CL_CH1);
 		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 25, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "CH1", &tFont);
 	}
 	else if (ch == TRIG_CH2)
 	{
-		bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 23, 481 - (trig_btn.msg.y + trig_btn.msg.y_size) + 18, 15, 26, CL_BLUE2);
+		bsp_lcd_fill_rect(LTDC_LAYER_1, trig_btn.msg.x + 23, 481 - (trig_btn.msg.y + trig_btn.msg.y_size) + 18, 15, 26, CL_CH2);
 		LCD_DispStr(LTDC_LAYER_1, trig_btn.msg.x + 25, (trig_btn.msg.y + trig_btn.msg.y_size) - 19, "CH2", &tFont);
 	}
 }
@@ -556,6 +558,7 @@ int bsps_ui_wave_init(void)
 	osc_ui_trig_btn_calculate(&trig_btn);
 	osc_ui_trig_menu_calculate(&trig_menu, &trig_btn);
 	osc_ui_trig_menu_btn_calculate(trig_bck_btn, trig_sel_btn, &trig_menu);
+	osc_ui_mea_btn_calculate(mea_bck_btn);
 
 	// gui_show_win(&ch12_menu[1]);
 
@@ -609,12 +612,12 @@ static void osc_draw_trig_line(widget_t *wd)
 	const uint16_t color_table_trig_lines[2][2] =
 		{
 			{
-				CL_BLUE1,
-				CL_BLUE2,
+				CL_ORIG,
+				CL_ORIG,
 			},
 			{
-				CL_BLUE1,
-				CL_BLUE2,
+				CL_ORIG,
+				CL_ORIG,
 			},
 		};
 	// 当 wd->msg.mark_flag == 2 时为移动横线，当 REHIDE 置位时为仅消除横线
@@ -909,7 +912,7 @@ void osc_ui_l1_btn_draw(widget_t *wd)
 	}
 	else if (wd->msg.x == 330)
 	{
-		bsp_lcd_fill_rect(LTDC_LAYER_1, wd->msg.x + 3, 481 - (wd->msg.y + wd->msg.y_size) + 4, 27, 27, CL_BLUE1);
+		bsp_lcd_fill_rect(LTDC_LAYER_1, wd->msg.x + 3, 481 - (wd->msg.y + wd->msg.y_size) + 4, 27, 27, CL_CH2);
 		LCD_DispStr(LTDC_LAYER_1, wd->msg.x + 5, (wd->msg.y + wd->msg.y_size) - 11, "CH2", &tFont);
 		bsps_ui_ch12_acdc_draw(1, 1);
 		bsps_ui_ch12_ratio_draw(1, 1);
@@ -1485,4 +1488,23 @@ void osc_ui_trig_btn_sel(uint8_t index)
 	}
 	trig_sel_btn[index].msg.wflags |= GUI_CH_STA;
 	gui_create_event();
+}
+
+void osc_ui_mea_btn_calculate(widget_t wid[])
+{
+	for (uint16_t i = 0; i < 4; i++)
+	{
+		wid[i].msg.x = 20 + 175 * i;
+		wid[i].msg.y = 5;
+		wid[i].msg.x_size = 150;
+		wid[i].msg.y_size = 30;
+		wid[i].msg.color = CL_CH12_BTN_BLOD;
+		wid[i].msg.wflags |= GUI_BTN_BOLD;
+		wid[i].draw = osc_ui_l1_btn_draw;
+		wid[i].peer_linker = 0;
+		wid[i].parent = &win_main;
+		wid[i].msg.pri_data = "CH12";
+		wid[i].msg.layer = LTDC_LAYER_1;
+		gui_wid_creater(&wid[i]);
+	}
 }

@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-11-09 18:12:25
- * @LastEditTime: 2023-12-11 20:31:33
+ * @LastEditTime: 2023-12-25 13:58:56
  * @Description: «ÎÃÓ–¥ºÚΩÈ
  */
 #ifndef __BSPS_THREAD_H
@@ -31,7 +31,7 @@
 typedef struct
 {
     uint16_t trig_lev[2];
-    uint16_t offset_lev[2];
+    int offset_lev[2];
     uint8_t vol_scale[2];
     uint8_t timebase;
     uint8_t ch1_sta;
@@ -40,6 +40,7 @@ typedef struct
     uint8_t is_pause;
     uint8_t trig_mode;
     uint8_t trig_edge;
+    uint8_t trig_src;
     uint8_t run_mode;
     uint8_t acdc;
     uint8_t ratio;
