@@ -12,6 +12,8 @@ uint16_t g_base_fre = 0;
 // OS_TSK_REGISTER(bsps_mea_vmin,PRIORITY_3,1000);
 // OS_TSK_REGISTER(bsps_mea_fre,PRIORITY_3,1000);
 
+#if 0
+
 static void bsps_mea_vpp(void)
 {
 	if(osc_mode)
@@ -128,7 +130,7 @@ void bsps_mea_fre(void)
 	tFont.BackColor = CL_MASK;	 	
 	tFont.Space = 0;
 	
-	bsps_fft_cal(actu_data);
+	// bsps_fft_cal(actu_data);
 	bsps_mea_find_max();
 	
 	fre = g_base_fre * g_sa_rate_wave / 2.048;
@@ -166,6 +168,7 @@ void bsps_mea_find_max(void)
 //	printf("fre:%d amp:%.1f",g_base_fre,g_max_fre_amp);
 }
 
+#endif
 
 
 

@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-09-11 10:17:10
- * @LastEditTime: 2023-12-11 14:37:54
+ * @LastEditTime: 2023-12-31 14:47:32
  * @Description: «ÎÃÓ–¥ºÚΩÈ
  */
 #ifndef __BSPS_LCD_DRAW_H
@@ -34,5 +34,7 @@ void bsps_ui_trig_mode_draw(uint8_t mode);
 void bsps_ui_trig_edge_draw(uint8_t edge);
 void bsps_ui_trig_ch_draw(uint8_t ch);
 void bsps_ui_trig_mode_draw(uint8_t mode);
+
+void bsps_ui_battery_vol_draw(float vol);
 
 #endif

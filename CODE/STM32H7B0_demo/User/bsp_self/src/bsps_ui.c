@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-09-11 10:17:02
- * @LastEditTime: 2023-12-26 17:36:13
+ * @LastEditTime: 2024-01-03 18:30:19
  * @Description: 请填写简介
  */
 /*
@@ -26,7 +26,7 @@ window_t win_main, right_menu, ch12_menu[2], trig_menu;
 static gui_dev_t *dev;
 uint16_t trig_lines_hold_time_s = 0;
 widget_t wd1;
-widget_t right_btn[6];
+widget_t right_btn[6]; 
 widget_t ch12_btn[2];
 widget_t ch1_bck_btn[3];
 widget_t ch1_btn[6];
@@ -357,6 +357,80 @@ void bsps_ui_timebase_draw(char *str)
 	LCD_DispStr(LTDC_LAYER_1, ch12_btn[1].msg.x + ch12_btn[1].msg.x_size + 30 + 20, 472, str, &tFont);
 }
 
+//电池电压绘制
+void bsps_ui_battery_vol_draw(float vol)
+{
+	uint8_t per = 0;
+
+	FONT_T tFont;
+	tFont.FontCode = FC_ST_16;
+	tFont.FrontColor = CL_GREY2;
+	tFont.BackColor = CL_MASK;
+	tFont.Space = 0;
+
+	bsp_lcd_fill_rect(LTDC_LAYER_1, 0, 0, 35, 100, CL_BLACK);
+
+	if(vol >= 4.2)
+	{
+		per = 100;
+	}
+	else if(vol >= 4.08)
+	{
+		per = 90;
+	}
+	else if(vol >= 4.0)
+	{
+		per = 80;
+	}
+	else if(vol >= 3.93)
+	{
+		per = 70;
+	}
+	else if(vol >= 3.87)
+	{
+		per = 60;
+	}
+	else if(vol >= 3.82)
+	{
+		per = 50;
+	}
+	else if(vol >= 3.79)
+	{
+		per = 40;
+	}
+	else if(vol >= 3.77)
+	{
+		per = 30;
+	}
+	else if(vol >= 3.73)
+	{
+		per = 20;
+	}
+	else if(vol >= 3.7)
+	{
+		per = 15;
+	}
+	else if(vol >= 3.68)
+	{
+		per = 10;
+	}
+	else if(vol >= 3.5)
+	{
+		per = 5;
+	}
+	else if(vol < 3.5)
+	{
+		per = 0;
+	}
+
+	sprintf((char *)buf, "Bat:%d%%", per);
+	LCD_DispStr(LTDC_LAYER_1, 20, 475, (char *)buf, &tFont);
+
+	sprintf((char *)buf, "Vol:%.2fV", vol);
+	LCD_DispStr(LTDC_LAYER_1, 20, 458, (char *)buf, &tFont);
+	
+}
+
 // 采样率数据绘制
 void bsps_ui_sa_rate_draw(uint16_t rate)
 {
@@ -485,7 +559,7 @@ void bsps_ui_base_fre_draw(void)
 	tFont.BackColor = CL_MASK;
 	tFont.Space = 0;
 
-	bsps_mea_find_max();
+	// bsps_mea_find_max();
 
 	sprintf((char *)buf, "%dHz %.3fV", (int)(base_fre * sa_rate_spec / 2.048), max_fre_amp / 1024.0);
 	LCD_DispStr(LTDC_LAYER_1, base_fre + 30, max_fre_amp / 6 + 60, (char *)buf, &tFont);

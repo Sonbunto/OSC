@@ -1,7 +1,7 @@
 /*
  * @Author: SUN  BI4NEG@gmail.com
  * @Date: 2023-10-03 16:37:46
- * @LastEditTime: 2023-12-26 18:44:44
+ * @LastEditTime: 2023-12-31 14:54:59
  * @Description: 请填写简介
  */
 /*
@@ -33,6 +33,7 @@ __IO uint16_t g_sa_rate_spec = 1000; // 频域采样率 单位Ksps
 __IO uint8_t ch1_ctl_btn, ch2_ctl_btn, trig_ctl_btn = 0;
 __IO uint8_t ch1_en = 1, ch2_en = 1, ch1_ratio = 1, ch2_ratio = 1, ch1_coup = 1, ch2_coup = 1, trig_mode = 0, trig_edge = 1, trig_ch = 0;
 uint8_t tmp_cnt = 0;
+uint16_t g_trig_bias = 240;
 
 void bsps_touch_task(void);
 
@@ -249,29 +250,13 @@ void bsps_touch_osc_mode(void)
 // 暂停触摸事件
 void bsps_touch_pause(void)
 {
-	if (g_is_pause)
-	{
-		g_is_pause = 0;
-	}
-	else
-	{
-		g_flag_trig_en = 0;
-		//		bsps_ui_is_trig_draw();
-		g_is_pause = 1;
-	}
+
 }
 
 // 重新运行按钮任务
 void bsps_touch_restore(void)
 {
-	g_vol_bias = 0;
-	g_trig_bias = 307;
-	g_vol_gain = 1.0;
-	bsps_ui_trig_vol_draw((g_trig_bias - 307) / 120.0);
-	bsps_ui_trig_icon_draw(g_trig_bias);
 
-	TIM6->ARR = 10 - 1;
-	bsps_ui_timebase_draw(50);
 }
 
 // 探头衰减设置按钮任务

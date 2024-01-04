@@ -74,11 +74,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -208,11 +208,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -297,11 +297,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -311,7 +311,7 @@ I (..\..\User\bsp_self\inc\bsps_encoder.h)(0x654F4CD1)
 I (..\..\User\bsp_self\inc\bsps_periph.h)(0x658AA147)
 I (..\..\User\gui\gui.h)(0x65769A5D)
 I (..\..\User\gui\gui_dev.h)(0x6559F8D1)
-F (..\..\User\bsp_self\src\bsps_adc.c)(0x6548D6D9)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../../User/BSP/inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc/Legacy -I ../../Libraries/CMSIS/Device/ST/STM32H7xx/Include -I ../../Libraries/CMSIS/Include -I ../../User -I ../../User/BSP -I ../../User/BSP/inc -I ../../User/bsp_self/inc -I ../../OS -I ../../User/Fonts -I ../../Libraries/CMSIS/DSP/Include -I ../../Libraries/CMSIS/DSP/PrivateInclude -I ./RTE/Compiler -I ../../User/gui-I./RTE/Compiler-I./RTE/_Target_1-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/ARM_Compiler/1.6.3/Include-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/STM32H7xx_DFP/3.0.0/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32H7B0xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32H7B0xx-o ./objects/bsps_adc.o -MD)
+F (..\..\User\bsp_self\src\bsps_adc.c)(0x659271DB)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../../User/BSP/inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc/Legacy -I ../../Libraries/CMSIS/Device/ST/STM32H7xx/Include -I ../../Libraries/CMSIS/Include -I ../../User -I ../../User/BSP -I ../../User/BSP/inc -I ../../User/bsp_self/inc -I ../../OS -I ../../User/Fonts -I ../../Libraries/CMSIS/DSP/Include -I ../../Libraries/CMSIS/DSP/PrivateInclude -I ./RTE/Compiler -I ../../User/gui-I./RTE/Compiler-I./RTE/_Target_1-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/ARM_Compiler/1.6.3/Include-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/STM32H7xx_DFP/3.0.0/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32H7B0xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32H7B0xx-o ./objects/bsps_adc.o -MD)
 I (..\..\User\BSP\bsp.h)(0x6559F8D1)
 I (C:\Users\19439\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.3\Include\EventRecorder.h)(0x5B8F507E)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x603507D0)
@@ -385,11 +385,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -400,7 +400,7 @@ I (..\..\User\bsp_self\inc\bsps_periph.h)(0x658AA147)
 I (..\..\User\gui\gui.h)(0x65769A5D)
 I (..\..\User\gui\gui_dev.h)(0x6559F8D1)
 I (..\..\Libraries\CMSIS\DSP\Include\dsp\window_functions.h)(0x63C9DBD2)
-F (..\..\User\bsp_self\src\bsps_ui.c)(0x658AB0A1)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../../User/BSP/inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc/Legacy -I ../../Libraries/CMSIS/Device/ST/STM32H7xx/Include -I ../../Libraries/CMSIS/Include -I ../../User -I ../../User/BSP -I ../../User/BSP/inc -I ../../User/bsp_self/inc -I ../../OS -I ../../User/Fonts -I ../../Libraries/CMSIS/DSP/Include -I ../../Libraries/CMSIS/DSP/PrivateInclude -I ./RTE/Compiler -I ../../User/gui-I./RTE/Compiler-I./RTE/_Target_1-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/ARM_Compiler/1.6.3/Include-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/STM32H7xx_DFP/3.0.0/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32H7B0xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32H7B0xx-o ./objects/bsps_ui.o -MD)
+F (..\..\User\bsp_self\src\bsps_ui.c)(0x6592C2DA)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../../User/BSP/inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc/Legacy -I ../../Libraries/CMSIS/Device/ST/STM32H7xx/Include -I ../../Libraries/CMSIS/Include -I ../../User -I ../../User/BSP -I ../../User/BSP/inc -I ../../User/bsp_self/inc -I ../../OS -I ../../User/Fonts -I ../../Libraries/CMSIS/DSP/Include -I ../../Libraries/CMSIS/DSP/PrivateInclude -I ./RTE/Compiler -I ../../User/gui-I./RTE/Compiler-I./RTE/_Target_1-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/ARM_Compiler/1.6.3/Include-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/STM32H7xx_DFP/3.0.0/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32H7B0xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32H7B0xx-o ./objects/bsps_ui.o -MD)
 I (..\..\User\BSP\bsp.h)(0x6559F8D1)
 I (C:\Users\19439\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.3\Include\EventRecorder.h)(0x5B8F507E)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x603507D0)
@@ -474,11 +474,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -562,11 +562,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -576,7 +576,7 @@ I (..\..\User\bsp_self\inc\bsps_encoder.h)(0x654F4CD1)
 I (..\..\User\bsp_self\inc\bsps_periph.h)(0x658AA147)
 I (..\..\User\gui\gui.h)(0x65769A5D)
 I (..\..\User\gui\gui_dev.h)(0x6559F8D1)
-F (..\..\User\bsp_self\src\bsps_touch.c)(0x658AAF34)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../../User/BSP/inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc/Legacy -I ../../Libraries/CMSIS/Device/ST/STM32H7xx/Include -I ../../Libraries/CMSIS/Include -I ../../User -I ../../User/BSP -I ../../User/BSP/inc -I ../../User/bsp_self/inc -I ../../OS -I ../../User/Fonts -I ../../Libraries/CMSIS/DSP/Include -I ../../Libraries/CMSIS/DSP/PrivateInclude -I ./RTE/Compiler -I ../../User/gui-I./RTE/Compiler-I./RTE/_Target_1-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/ARM_Compiler/1.6.3/Include-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/STM32H7xx_DFP/3.0.0/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32H7B0xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32H7B0xx-o ./objects/bsps_touch.o -MD)
+F (..\..\User\bsp_self\src\bsps_touch.c)(0x65911045)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../../User/BSP/inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc/Legacy -I ../../Libraries/CMSIS/Device/ST/STM32H7xx/Include -I ../../Libraries/CMSIS/Include -I ../../User -I ../../User/BSP -I ../../User/BSP/inc -I ../../User/bsp_self/inc -I ../../OS -I ../../User/Fonts -I ../../Libraries/CMSIS/DSP/Include -I ../../Libraries/CMSIS/DSP/PrivateInclude -I ./RTE/Compiler -I ../../User/gui-I./RTE/Compiler-I./RTE/_Target_1-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/ARM_Compiler/1.6.3/Include-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/STM32H7xx_DFP/3.0.0/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32H7B0xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32H7B0xx-o ./objects/bsps_touch.o -MD)
 I (..\..\User\BSP\bsp.h)(0x6559F8D1)
 I (C:\Users\19439\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.3\Include\EventRecorder.h)(0x5B8F507E)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x603507D0)
@@ -650,11 +650,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -664,7 +664,7 @@ I (..\..\User\bsp_self\inc\bsps_encoder.h)(0x654F4CD1)
 I (..\..\User\bsp_self\inc\bsps_periph.h)(0x658AA147)
 I (..\..\User\gui\gui.h)(0x65769A5D)
 I (..\..\User\gui\gui_dev.h)(0x6559F8D1)
-F (..\..\User\bsp_self\src\bsps_measure.c)(0x6561F436)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../../User/BSP/inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc/Legacy -I ../../Libraries/CMSIS/Device/ST/STM32H7xx/Include -I ../../Libraries/CMSIS/Include -I ../../User -I ../../User/BSP -I ../../User/BSP/inc -I ../../User/bsp_self/inc -I ../../OS -I ../../User/Fonts -I ../../Libraries/CMSIS/DSP/Include -I ../../Libraries/CMSIS/DSP/PrivateInclude -I ./RTE/Compiler -I ../../User/gui-I./RTE/Compiler-I./RTE/_Target_1-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/ARM_Compiler/1.6.3/Include-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/STM32H7xx_DFP/3.0.0/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32H7B0xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32H7B0xx-o ./objects/bsps_measure.o -MD)
+F (..\..\User\bsp_self\src\bsps_measure.c)(0x659110B5)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m7 -mfpu=fpv5-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__MICROLIB -gdwarf-4 -O0 -ffunction-sections -w -I ../../User/BSP/inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc -I ../../Libraries/STM32H7xx_HAL_Driver/Inc/Legacy -I ../../Libraries/CMSIS/Device/ST/STM32H7xx/Include -I ../../Libraries/CMSIS/Include -I ../../User -I ../../User/BSP -I ../../User/BSP/inc -I ../../User/bsp_self/inc -I ../../OS -I ../../User/Fonts -I ../../Libraries/CMSIS/DSP/Include -I ../../Libraries/CMSIS/DSP/PrivateInclude -I ./RTE/Compiler -I ../../User/gui-I./RTE/Compiler-I./RTE/_Target_1-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/ARM_Compiler/1.6.3/Include-IC:/Users/19439/AppData/Local/Arm/Packs/Keil/STM32H7xx_DFP/3.0.0/Drivers/CMSIS/Device/ST/STM32H7xx/Include-D__UVISION_VERSION="536" -D_RTE_ -DSTM32H7B0xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32H7B0xx-o ./objects/bsps_measure.o -MD)
 I (..\..\User\BSP\bsp.h)(0x6559F8D1)
 I (C:\Users\19439\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.3\Include\EventRecorder.h)(0x5B8F507E)
 I (C:\Keil_v5\ARM\ARMCLANG\include\stdint.h)(0x603507D0)
@@ -738,11 +738,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -826,11 +826,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -914,11 +914,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -1002,11 +1002,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -1090,11 +1090,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -1178,11 +1178,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -1266,11 +1266,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -3046,11 +3046,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -3134,11 +3134,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
@@ -3222,11 +3222,11 @@ I (..\..\Libraries\CMSIS\DSP\Include\dsp\quaternion_math_functions.h)(0x63C9DBD2
 I (..\..\Libraries\CMSIS\DSP\Include\arm_const_structs.h)(0x63C9DBD2)
 I (..\..\Libraries\CMSIS\DSP\Include\arm_common_tables.h)(0x63C9DBD2)
 I (..\..\User\BSP\inc\bsp_lcd.h)(0x658AAFD2)
-I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65449265)
+I (..\..\User\bsp_self\inc\bsps_adc.h)(0x65911033)
 I (..\..\User\bsp_self\inc\bsps_iic.h)(0x651CE2B8)
 I (..\..\User\bsp_self\inc\bsps_touch.h)(0x655206C6)
 I (..\..\OS\os.h)(0x65276859)
-I (..\..\User\bsp_self\inc\bsps_ui.h)(0x6576AE42)
+I (..\..\User\bsp_self\inc\bsps_ui.h)(0x65910E84)
 I (..\..\User\bsp_self\inc\bsps_measure.h)(0x6526A067)
 I (..\..\User\bsp_self\inc\bsps_fft.h)(0x6520F145)
 I (..\..\User\bsp_self\inc\bsps_ad9288.h)(0x65520EEE)
